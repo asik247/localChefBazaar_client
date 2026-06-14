@@ -5,9 +5,11 @@ import Foot from '../Components/Footer/Foot';
 
 const RootLayout = () => {
     return (
-        <div>
+        <div className='w-11/12 min-h-screen mx-auto flex flex-col overflow-x-hidden'>
             <Nav></Nav>
-            <Outlet></Outlet>
+            <div className='flex-1'>
+                <Outlet></Outlet>
+            </div>
             <Foot></Foot>
         </div>
     );
