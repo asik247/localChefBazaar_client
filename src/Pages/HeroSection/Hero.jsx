@@ -99,9 +99,7 @@ const Hero = () => {
             😋
           </motion.div>
         </motion.div>
-            <div>
-              <h1>hi</h1>
-            </div>
+            
       </div>
     </section>
    );
