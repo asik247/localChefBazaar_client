@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import bannerImg from '../../assets/heroBanner1.jpg'
 const Hero = () => {
    return (
-       <section className=" bg-gray-200 min-h-screen max-w-7xl mx-auto px-4 py-10 overflow-hidden">
+       <section className=" bg-gray-200 min-h-screen max-w-7xl mx-auto px-6 py-10 overflow-hidden">
       <div className="grid lg:grid-cols-2 gap-10 items-center">
 
         {/* Left Content */}
