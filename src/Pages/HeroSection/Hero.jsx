@@ -3,9 +3,8 @@ import { motion } from "framer-motion";
 import bannerImg from '../../assets/heroBanner1.jpg'
 const Hero = () => {
   return (
-    <section style={{background: 'rgba(8, 20, 8, 0.93)'}} className="rounded-3xl max-w-7xl mx-auto px-6 py-10 overflow-hidden">
+    <section style={{background: 'rgba(17, 24, 39, 0.95'}} className="rounded-3xl max-w-7xl mx-auto px-6 py-10 overflow-hidden">
       <div className="grid lg:grid-cols-2 gap-10 items-center">
-
         {/* Left Content */}
         <motion.div
           initial={{ x: -100, opacity: 0 }}

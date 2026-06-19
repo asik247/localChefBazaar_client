@@ -1,7 +1,7 @@
 import React from 'react';
 import useInstance from '../../Hooks/useInstance';
 import { useQuery } from '@tanstack/react-query';
-
+import { Link } from 'react-router';
 const Cards = () => {
     const instance = useInstance();
     const { data: cardsData = [], isLoading } = useQuery({
@@ -16,7 +16,7 @@ const Cards = () => {
     }
     return (
         <div className='mt-20'>
-            <h1 className="text-4xl font-extrabold text-center my-10 tracking-tight italic">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-center my-10 tracking-tight italic">
                 Freshly Made <span className="text-emerald-500">for You</span>
             </h1>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-2'>
@@ -41,14 +41,19 @@ const Cards = () => {
 
                             <div className="flex items-center justify-between mt-4">
                                 <span className="text-xl font-semibold text-gray-900">${card.price}</span>
-                                <button className="bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-xl hover:bg-gray-700 transition-colors">
+                                <Link to={`/details/${card._id}`} className="bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-xl hover:bg-gray-700 transition-colors">
                                     view details
-                                </button>
+                                </Link>
                             </div>
                         </div>
 
                     </div>
                 ))}
+            </div>
+            <div className="flex justify-center my-8">
+                <Link to={'/meals'} className="btn btn-ghost bg-gradient-to-r from-orange-400 to-red-500 text-white font-semibold px-10 rounded-full">
+                    All Meals Here
+                </Link>
             </div>
         </div>
     );
