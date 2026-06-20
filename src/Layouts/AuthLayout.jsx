@@ -1,10 +1,11 @@
 import React from 'react';
 import { Outlet } from 'react-router';
+import Nav from '../Components/Navbar/Nav';
 
 const AuthLayout = () => {
     return (
         <div>
-            <h1>hi authlayout here</h1>
+            <Nav></Nav>
             <Outlet></Outlet>
         </div>
     );
