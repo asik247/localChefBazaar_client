@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import registerImg from '../../assets/login1.jpg';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 const Registration = () => {
+    //? register info get authprovider;
+    const usersInfo = useContext(AuthContext);
+    console.log('user data',usersInfo);
     // ? react hook form;
     const { register, handleSubmit, formState: { errors } } = useForm();
     //! my handler with register;
