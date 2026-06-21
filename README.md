@@ -3,3 +3,4 @@
 # react hook form usign strong validation;
 # firebase using authengration process;
 # env in vite react usign secquire firebase keys;
+# imagebb , axios , sweetalert2
