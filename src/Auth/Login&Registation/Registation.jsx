@@ -2,15 +2,71 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import registerImg from '../../assets/login1.jpg';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import axios from 'axios';
+import useInstance from '../../Hooks/useInstance';
+import Swal from 'sweetalert2';
 const Registration = () => {
+    const instance = useInstance()
     //? register info get authprovider;
-    const usersInfo = useContext(AuthContext);
-    console.log('user data',usersInfo);
+    const { createUser, user, updateUser } = useContext(AuthContext);
+    // console.log('currentUser', user);
     // ? react hook form;
     const { register, handleSubmit, formState: { errors } } = useForm();
     //! my handler with register;
     const handlerRegistation = (data) => {
-        console.log('all info for register user', data.name, data.photo, data.email, data.password, data.confirmPassword);
+        //? user img customise with imagebb;
+        const userImg = data.photo[0];
+        //Todo create user funk;
+        createUser(data.email, data.password)
+            .then(res => {
+                //Todo file transfer formData formate;
+                const formData = new FormData();
+                formData.append('image', userImg)
+                //? api create;
+                const image_api_url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imabb_key}`
+                //! post then get url;
+                axios.post(image_api_url, formData)
+                    .then(res => {
+                        // console.log(res.data.data.url);
+                        //? user info;
+                        const userInfo = {
+                            email: data.email,
+                            displayName: data.name,
+                            photoURL: res.data.data.url
+                        }
+                        //! post register user info in users coll;
+                        instance.post('/users', userInfo)
+                            .then(res => {
+                                // console.log(res.data);
+                                if (res.data.insertedId) {
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "register user data inserted in db",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            })
+
+                        //Todo updateProfile code start;
+                        const updateProfile = {
+                            displayName: data.name,
+                            photoURL: res.data.data.url
+                        }
+                        updateUser(updateProfile)
+                            .then(() => {
+                                // console.log('updateProfile successfully');
+                            }).catch(err => {
+                                console.log(err.message);
+                            })
+                        //Todo updateProfile code end;
+                    })
+
+                console.log(res.user);
+            }).catch(error => {
+                console.log(error.message);
+            })
     };
 
     return (
@@ -80,8 +136,7 @@ const Registration = () => {
                                 </label>
                                 <input
                                     {...register('photo')}
-                                    type="text"
-                                    placeholder="https://example.com/photo.jpg"
+                                    type="file"
                                     className="w-full px-4 py-2.5 rounded-lg text-sm text-gray-800 outline-none transition-all duration-200"
                                     style={{ background: 'rgba(127,119,221,0.06)', border: '0.5px solid rgba(127,119,221,0.3)' }}
                                     onFocus={e => {
