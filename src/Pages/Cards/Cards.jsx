@@ -19,9 +19,9 @@ const Cards = () => {
             <h1 className="text-3xl md:text-4xl font-extrabold text-center my-10 tracking-tight italic">
                 Freshly Made <span className="text-emerald-500">for You</span>
             </h1>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-2'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 '>
                 {cardsData.map(card => (
-                    <div key={card._id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden w-74  mx-auto hover:shadow-md transition-shadow">
+                    <div key={card._id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden w-full  mx-auto hover:shadow-md transition-shadow">
                         {/* Image */}
                         <div className="relative">
                             <img

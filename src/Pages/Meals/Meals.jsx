@@ -16,9 +16,9 @@ const Meals = () => {
             <h1>All Meals here{meals.length}</h1>
              <div className='mt-20'>
             
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-2'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
                 {meals.map(meal => (
-                    <div key={meal._id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden w-74  mx-auto hover:shadow-md transition-shadow">
+                    <div key={meal._id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden w-full  mx-auto  hover:shadow-md transition-shadow">
                         {/* Image */}
                         <div className="relative">
                             <img

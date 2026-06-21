@@ -9,8 +9,8 @@ const Login = () => {
         console.log('email-password', data.email, data.password);
     }
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-            <div className="flex flex-col-reverse md:flex-row w-full max-w-4xl rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="flex flex-col-reverse md:flex-row  rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
                 {/* Left side - Image */}
                 <div className="flex-1 relative min-h-[220px] md:min-h-0">
                     <img
