@@ -1,12 +1,44 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import loginImg from '../../assets/login2.jpg'
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 const Login = () => {
+    const { logInUsers, logOutUsers } = useContext(AuthContext);
     // ? react hook form;
-    const { register, handleSubmit,formState:{errors} } = useForm()
+    const { register, handleSubmit,setError, formState: { errors } } = useForm()
     //! handler login;
     const handlerLogin = (data) => {
-        console.log('email-password', data.email, data.password);
+        // console.log('email-password', data.email, data.password);
+        logInUsers(data.email, data.password)
+            .then(res => {
+                console.log(res.user);
+                //? success message login done;
+                 Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "logIn compleate!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                //! emailVerified message showing;
+                if (!res.user.emailVerified) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Email Not Verify!",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+
+            })
+            .catch(()=>{
+                setError('root',{
+                    type:'maniul',
+                    message:'LogIn Faield!'
+                })
+            })
     }
     return (
         <div className="min-h-screen flex items-center justify-center">
@@ -100,8 +132,8 @@ const Login = () => {
                                     {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
                                 </div>
                             </div>
-                             {/* forgot password */}
-                                 <div><a className="link link-hover">Forgot password?</a></div>
+                            {/* forgot password */}
+                            <div><a className="link link-hover">Forgot password?</a></div>
                             {/* Submit Button */}
                             <button
                                 type="submit"
@@ -116,6 +148,12 @@ const Login = () => {
                         New to our website?{' '}
                         <a href="/auth/registation" className="text-indigo-600 font-medium hover:underline">Registation</a>
                     </p>
+                    {/* LogIn Faield message showing */}
+                    <div>
+                        {
+                            errors.root && <p className='text-red-500 text-xl'>{errors.root.message}</p>
+                        }
+                    </div>
 
                 </div>
             </div>

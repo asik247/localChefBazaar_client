@@ -5,13 +5,14 @@ import { AuthContext } from '../AuthProvider/AuthProvider';
 import axios from 'axios';
 import useInstance from '../../Hooks/useInstance';
 import Swal from 'sweetalert2';
+import { type } from 'firebase/firestore/pipelines';
 const Registration = () => {
     const instance = useInstance()
     //? register info get authprovider;
-    const { createUser, user, updateUser } = useContext(AuthContext);
+    const { createUser, user, verifyEmail, updateUser } = useContext(AuthContext);
     // console.log('currentUser', user);
     // ? react hook form;
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, setError, formState: { errors } } = useForm();
     //! my handler with register;
     const handlerRegistation = (data) => {
         //? user img customise with imagebb;
@@ -19,6 +20,18 @@ const Registration = () => {
         //Todo create user funk;
         createUser(data.email, data.password)
             .then(res => {
+                // ? email verify;
+                verifyEmail()
+                //! Register success swal;
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your account has been created!",
+                    text: "A verification link has been sent to your email. Please verify your email before logging in.",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
                 //Todo file transfer formData formate;
                 const formData = new FormData();
                 formData.append('image', userImg)
@@ -37,16 +50,7 @@ const Registration = () => {
                         //! post register user info in users coll;
                         instance.post('/users', userInfo)
                             .then(res => {
-                                // console.log(res.data);
-                                if (res.data.insertedId) {
-                                    Swal.fire({
-                                        position: "top-end",
-                                        icon: "success",
-                                        title: "register user data inserted in db",
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    });
-                                }
+                                console.log(res.data);
                             })
 
                         //Todo updateProfile code start;
@@ -64,8 +68,11 @@ const Registration = () => {
                     })
 
                 console.log(res.user);
-            }).catch(error => {
-                console.log(error.message);
+            }).catch(() => {
+                setError('root', {
+                    type: 'maniul',
+                    message: 'Registration failed!'
+                })
             })
     };
 
@@ -250,6 +257,12 @@ const Registration = () => {
                         Already have an account?{' '}
                         <a href="/auth" className="text-indigo-600 font-medium hover:underline">Sign in</a>
                     </p>
+                    {/* Register Faield error message showing ui */}
+                    <div>
+                        {
+                            errors.root && <p className='text-red-500 text-xl'>{errors.root.message}</p>
+                        }
+                    </div>
 
                 </div>
             </div>
