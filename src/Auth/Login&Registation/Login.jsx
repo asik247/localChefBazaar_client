@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
 const Login = () => {
-    const { logInUsers, logOutUsers } = useContext(AuthContext);
+    const { logInUsers, logOutUsers,user,forgotPassword } = useContext(AuthContext);
+    console.log('current user',user);
     // ? react hook form;
     const { register, handleSubmit,setError, formState: { errors } } = useForm()
     //! handler login;
@@ -39,6 +40,19 @@ const Login = () => {
                     message:'LogIn Faield!'
                 })
             })
+    }
+    //? forgot password ❌❌;
+    const handlerPasswordForgot = (e,user)=>{
+        e.preventDefault()
+        forgotPassword(user?.email)
+        .then(()=>{
+             Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Checked Your email and update password!",
+                    timer:1500
+                });
+        })
     }
     return (
         <div className="min-h-screen flex items-center justify-center">
@@ -133,7 +147,7 @@ const Login = () => {
                                 </div>
                             </div>
                             {/* forgot password */}
-                            <div><a className="link link-hover">Forgot password?</a></div>
+                            <div><a onClick={handlerPasswordForgot} className="link link-hover">Forgot password?</a></div>
                             {/* Submit Button */}
                             <button
                                 type="submit"
