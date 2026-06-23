@@ -17,6 +17,7 @@ const router = createBrowserRouter([
             {path:'about',element:<PrivateRoute><AboutPage></AboutPage></PrivateRoute>},
             {path:'meals',Component:Meals},
             {path:'details/:id',element:<PrivateRoute><Details></Details></PrivateRoute>},
+            
         ]
     },
     //? Auth Layout;

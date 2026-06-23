@@ -4,4 +4,4 @@
 # firebase using authengration process;
 # env in vite react usign secquire firebase keys;
 # imagebb , axios , sweetalert2
-# react spiner using loading implemtn
+# react spiner using loading implement
