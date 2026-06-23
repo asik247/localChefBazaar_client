@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
 const Login = () => {
-    const { logInUsers, logOutUsers,user,forgotPassword } = useContext(AuthContext);
-    console.log('current user',user);
+    const { logInUsers, logOutUsers, user, forgotPassword } = useContext(AuthContext);
+    console.log('current user', user);
     // ? react hook form;
-    const { register, handleSubmit,setError, formState: { errors } } = useForm()
+    const { register, watch, handleSubmit, setError, formState: { errors } } = useForm()
     //! handler login;
     const handlerLogin = (data) => {
         // console.log('email-password', data.email, data.password);
@@ -15,7 +15,7 @@ const Login = () => {
             .then(res => {
                 console.log(res.user);
                 //? success message login done;
-                 Swal.fire({
+                Swal.fire({
                     position: "top-end",
                     icon: "success",
                     title: "logIn compleate!",
@@ -34,25 +34,30 @@ const Login = () => {
                 }
 
             })
-            .catch(()=>{
-                setError('root',{
-                    type:'maniul',
-                    message:'LogIn Faield!'
+            .catch(() => {
+                setError('root', {
+                    type: 'maniul',
+                    message: 'LogIn Faield!'
                 })
             })
     }
     //? forgot password ❌❌;
-    const handlerPasswordForgot = (e,user)=>{
+    const userEmail = watch("email")
+    const handlerPasswordForgot = (e) => {
         e.preventDefault()
-        forgotPassword(user?.email)
-        .then(()=>{
-             Swal.fire({
+        if (!userEmail) {
+            alert('age email de sala')
+            return
+        }
+        forgotPassword(userEmail)
+            .then(() => {
+                Swal.fire({
                     position: "top-end",
                     icon: "success",
                     title: "Checked Your email and update password!",
-                    timer:1500
+                    timer: 1500
                 });
-        })
+            })
     }
     return (
         <div className="min-h-screen flex items-center justify-center">
@@ -147,7 +152,7 @@ const Login = () => {
                                 </div>
                             </div>
                             {/* forgot password */}
-                            <div><a onClick={handlerPasswordForgot} className="link link-hover">Forgot password?</a></div>
+                            <div><button onClick={handlerPasswordForgot} className="link link-hover">Forgot password?</button></div>
                             {/* Submit Button */}
                             <button
                                 type="submit"

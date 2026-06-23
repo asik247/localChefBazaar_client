@@ -18,8 +18,8 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth,email,password)
     }
     //? sendPasswordReset Email;
-    const forgotPassword = ()=>{
-        return sendPasswordResetEmail(auth)
+    const forgotPassword = (userEmail)=>{
+        return sendPasswordResetEmail(auth,userEmail)
     }
     //Todo logOut/signOut user;
     const logOutUsers = ()=>{
