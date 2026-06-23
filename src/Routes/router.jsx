@@ -7,6 +7,7 @@ import Details from "../Pages/CardDetails/Details"
 import AuthLayout from "../Layouts/AuthLayout"
 import Login from "../Auth/Login&Registation/Login"
 import Registation from "../Auth/Login&Registation/Registation"
+import PrivateRoute from "./PrivateRoute"
 const router = createBrowserRouter([
     {
         path:'/',
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
             {index:true,Component:HomePage},
             {path:'about',Component:AboutPage},
             {path:'meals',Component:Meals},
-            {path:'details/:id',Component:Details},
+            {path:'details/:id',element:<PrivateRoute><Details></Details></PrivateRoute>},
         ]
     },
     //? Auth Layout;
