@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
 const Login = () => {
-    const { logInUsers, logOutUsers, user, forgotPassword } = useContext(AuthContext);
+    const { logInUsers, user, forgotPassword } = useContext(AuthContext);
     console.log('current user', user);
     // ? react hook form;
     const { register, watch, handleSubmit, setError, formState: { errors } } = useForm()
@@ -41,14 +41,21 @@ const Login = () => {
                 })
             })
     }
-    //? forgot password ❌❌;
+    //? forgot password;
     const userEmail = watch("email")
     const handlerPasswordForgot = (e) => {
         e.preventDefault()
+        //? email cheaked!
         if (!userEmail) {
-            alert('age email de sala')
-            return
+            Swal.fire({
+                icon: "error",
+                title: "Please enter your email first!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
         }
+        //! Forgot password!
         forgotPassword(userEmail)
             .then(() => {
                 Swal.fire({

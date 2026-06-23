@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router';
-
+import { AuthContext } from '../../Auth/AuthProvider/AuthProvider';
 const Nav = () => {
+  const {user,logOutUsers} = useContext(AuthContext);
+   console.log('current user', user);
   const links = <>
     <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/'}>Home</NavLink></li>
     <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/about'}>About</NavLink></li>
     {/* <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/'}>Home</NavLink></li>
     <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/'}>Home</NavLink></li> */}
   </>
+  // ! handler logOut;
+  const handlerLogOut = ()=>{
+    logOutUsers()
+    .then(()=>{
+      console.log('logOut done');
+    })
+  }
     return (
         <div className="navbar bg-base-100 shadow-sm">
   <div className="navbar-start">
@@ -29,7 +38,11 @@ const Nav = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <Link to={'/auth'} className="btn">LogIn</Link>
+   
+    {/* validation logIn logOut */}
+    {
+      user ? <button onClick={handlerLogOut} className="btn">LogOut</button> : <Link to={'/auth'} className="btn">LogIn</Link>
+    }
   </div>
 </div>
     );
