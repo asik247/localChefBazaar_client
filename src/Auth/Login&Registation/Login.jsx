@@ -3,9 +3,13 @@ import loginImg from '../../assets/login2.jpg'
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
+import { useLocation, useNavigate } from 'react-router';
 const Login = () => {
     const { logInUsers, user, forgotPassword } = useContext(AuthContext);
     console.log('current user', user);
+    const location = useLocation();
+    console.log(location);
+    const navegate = useNavigate();
     // ? react hook form;
     const { register, watch, handleSubmit, setError, formState: { errors } } = useForm()
     //! handler login;
@@ -32,6 +36,7 @@ const Login = () => {
                         timer: 2000
                     });
                 }
+                navegate(location.state || '/')
 
             })
             .catch(() => {
