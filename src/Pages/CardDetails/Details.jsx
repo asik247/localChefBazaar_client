@@ -2,9 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { Link, useParams } from 'react-router';
 import useInstance from '../../Hooks/useInstance';
+import useAuth from '../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 const Details = () => {
+    const { user } = useAuth();
+    const instance = useInstance();
     const { id } = useParams();
-    const instance = useInstance()
     const { data: cardDetailsData = [] } = useQuery({
         queryKey: ['cardsData', id],
         queryFn: async () => {
@@ -12,6 +15,49 @@ const Details = () => {
             return res.data
         }
     })
+    //? post favortie inof in db;
+    const handleFavorite = async () => {
+        console.log('favortie btn clicked',);
+        const favoriteInfo = {
+            userEmail: user?.email,
+            mealId: cardDetailsData._id,
+            mealName: cardDetailsData.name,
+            chefId: cardDetailsData.chef_id,
+            chefName: cardDetailsData.chef_name,
+            price: cardDetailsData.price,
+            addedTime: new Date().toISOString()
+        };
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This meal in favorite!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await instance.post('/favorites', favoriteInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                title: "success!",
+                                text: "This meal has been addded favorite.",
+                                icon: "success"
+                            });
+                        }
+                        if (res.data.message === 'already-exists') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Already in favorites!'
+                            });
+                        }
+                    })
+            }
+        });
+
+    }
     return (
         <div className="m-10 bg-white rounded-2xl border border-gray-100 overflow-hidden max-w-md mx-auto hover:shadow-md transition-shadow">
             {/* Image */}
@@ -126,6 +172,13 @@ const Details = () => {
                     className="btn w-full m-2 bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30"
                 >
                     Order Now
+                </Link>
+                {/* Favorite btn */}
+                <Link
+                    onClick={handleFavorite}
+                    className="btn w-full bg-gradient-to-r rounded-full from-emerald-400 to-green-600 text-white border-none "
+                >
+                    ❤️ Add To Favorite
                 </Link>
             </div>
         </div>

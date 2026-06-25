@@ -4,7 +4,6 @@ import { useParams } from 'react-router';
 import useInstance from '../../Hooks/useInstance';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
-
 const Order = () => {
     const { user } = useAuth();
     const { id } = useParams();
@@ -20,14 +19,10 @@ const Order = () => {
     //! handler order confarm;
    const handleOrder = async (e) => {
     e.preventDefault();
-
     const form = e.target;
-
     const quantity = parseInt(form.quantity.value);
     const userAddress = form.address.value;
-
     const totalPrice = confarmOrderData.price * quantity;
-
     const orderInfo = {
         foodId: confarmOrderData._id,
         mealName: confarmOrderData.name,
@@ -41,7 +36,6 @@ const Order = () => {
         orderStatus: "pending",
         orderTime: new Date().toISOString()
     };
-
     try {
         const result = await Swal.fire({
             title: `Your total price is ৳${totalPrice}`,
@@ -70,19 +64,17 @@ const Order = () => {
         }
     } catch (error) {
         console.log(error);
-
         Swal.fire({
             icon: "error",
             title: "Something went wrong!"
         });
     }
 };
-
     return (
-        <div className="flex justify-center items-center py-12">
+        <div className="flex justify-center items-center py-8">
             <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-8">
                 {/* Title */}
-                <h1 className="text-3xl md:text-4xl font-extrabold text-center my-10 tracking-tight italic">
+                <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-6 tracking-tight italic">
                     Confirm Your <span className="text-emerald-500">Order</span>
                 </h1>
                 {/* Form here */}
