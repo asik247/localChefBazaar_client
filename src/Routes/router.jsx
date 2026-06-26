@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         children:[
             {index:true,Component:HomePage},
             {path:'about',element:<PrivateRoute><AboutPage></AboutPage></PrivateRoute>},
-            {path:'meals',Component:Meals},
+            {path:'meals',element:<PrivateRoute><Meals></Meals></PrivateRoute>},
             {path:'details/:id',element:<PrivateRoute><Details></Details></PrivateRoute>},
             {path:'orders/:id',element:<PrivateRoute><Order></Order></PrivateRoute>},
             
