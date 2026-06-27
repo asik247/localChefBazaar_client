@@ -1,7 +1,5 @@
 import React from 'react';
 import useAuth from '../../../Hooks/useAuth';
-
-
 const MyProfile = () => {
     const {user,loading} = useAuth();
     console.log('my profile user',user);
@@ -10,8 +8,9 @@ const MyProfile = () => {
     }
     return (
         <div>
-            <h1>Hello this is user profiel here</h1>
-            <img src={user?.photoURL} alt="" />
+            {/* <h1>Hello this is user profiel here</h1>
+            <img src={user?.photoURL} alt="" /> */}
+            
         </div>
     );
 };

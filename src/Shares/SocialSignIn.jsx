@@ -1,9 +1,12 @@
 import React from 'react';
 import useAuth from '../Hooks/useAuth';
 import useInstanceSecqure from '../Hooks/useInstanceSecqure';
+import { useLocation, useNavigate } from 'react-router';
 const SocialSignIn = () => {
     const instanceSecqure = useInstanceSecqure();
     const { googleSignIn } = useAuth();
+    const location = useLocation();
+    const navegate = useNavigate();
     const handlerSocialLogin = () => {
         googleSignIn()
             .then(res => {
@@ -21,6 +24,7 @@ const SocialSignIn = () => {
                 instanceSecqure.post('/users', userInfo)
                     .then(res => {
                         console.log(res.data);
+                        navegate(location.state || '/')
                     })
 
 
