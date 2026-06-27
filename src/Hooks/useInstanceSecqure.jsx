@@ -1,0 +1,28 @@
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import useAuth from './useAuth';
+const instanceSecqure = axios.create({
+    baseURL: "http://localhost:3000/",
+})
+const useInstanceSecqure = () => {
+    const {user} = useAuth()
+    // console.log(user.accessToken);
+    //Todo useEffect;
+    useEffect(() => {
+        const requestInterceptor = instanceSecqure.interceptors.request.use((config) => {
+            if(user?.accessToken){
+                config.headers.Authorization = `Bearer ${user?.accessToken}`
+            }
+            
+            return config
+        }, (err) => {
+            return Promise.reject(err)
+        })
+        return () => {
+            instanceSecqure.interceptors.request.eject(requestInterceptor);
+        }
+    }, [user])
+    return instanceSecqure
+};
+
+export default useInstanceSecqure;

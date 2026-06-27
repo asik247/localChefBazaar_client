@@ -9,6 +9,9 @@ import Login from "../Auth/Login&Registation/Login"
 import Registation from "../Auth/Login&Registation/Registation"
 import PrivateRoute from "./PrivateRoute"
 import Order from "../Pages/OrdersPage/Order"
+import DashboardLayout from "../Layouts/DashboardLayout"
+import MyProfile from "../Pages/DashBoard/UserDashboard/MyProfile"
+import DashboarHome from "../Pages/DashBoard/DashboardHome/DashboarHome"
 const router = createBrowserRouter([
     {
         path:'/',
@@ -29,6 +32,15 @@ const router = createBrowserRouter([
         children:[
             {index:true,element:<Login></Login>},
             {path:'registation',element:<Registation></Registation>}
+        ]
+    },
+    //! DashBoard Layouts;
+    {
+        path:'dashboardLayouts',
+        element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+        children:[
+            {index:true,element:<PrivateRoute><DashboarHome></DashboarHome></PrivateRoute>},
+            {path:'myProfile',element:<PrivateRoute><MyProfile></MyProfile></PrivateRoute>}
         ]
     }
 ])

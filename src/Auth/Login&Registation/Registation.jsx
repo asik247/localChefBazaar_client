@@ -45,7 +45,10 @@ const Registration = () => {
                         const userInfo = {
                             email: data.email,
                             displayName: data.name,
-                            photoURL: res.data.data.url
+                            photoURL: res.data.data.url,
+                            address: data.address,
+                            role: "user",
+                            status: "active"
                         }
                         //! post register user info in users coll;
                         instance.post('/users', userInfo)
@@ -181,6 +184,25 @@ const Registration = () => {
                                     }}
                                 />
                                 {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
+                            </div>
+                            {/* Address */}
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                    Address
+                                </label>
+
+                                <input
+                                    type="text"
+                                    {...register("address", { required: true })}
+                                    className="w-full h-12 px-4 rounded-xl border border-gray-300 bg-gray-50 outline-none focus:border-[#CAEB66] focus:ring-4 focus:ring-lime-100 transition-all"
+                                    placeholder="Type your address"
+                                />
+
+                                {errors.address?.type === 'required' && (
+                                    <p className='text-red-500 text-sm mt-2'>
+                                        Address is required
+                                    </p>
+                                )}
                             </div>
                             {/* Password + Confirm - side by side */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

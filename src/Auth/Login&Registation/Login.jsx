@@ -4,11 +4,12 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router';
+import SocialSignIn from '../../Shares/SocialSignIn';
 const Login = () => {
     const { logInUsers, user, forgotPassword } = useContext(AuthContext);
-    console.log('current user', user);
+    // console.log('current user', user);
     const location = useLocation();
-    console.log(location);
+    // console.log(location);
     const navegate = useNavigate();
     // ? react hook form;
     const { register, watch, handleSubmit, setError, formState: { errors } } = useForm()
@@ -17,7 +18,7 @@ const Login = () => {
         // console.log('email-password', data.email, data.password);
         logInUsers(data.email, data.password)
             .then(res => {
-                console.log(res.user);
+                // console.log(res.user);
                 //? success message login done;
                 Swal.fire({
                     position: "top-end",
@@ -173,6 +174,9 @@ const Login = () => {
                             >
                                 Login
                             </button>
+                            <span className='text-center text-2xl font-bold'>OR</span>
+                            {/* Socal login */}
+                            <SocialSignIn></SocialSignIn>
                         </fieldset>
                     </form>
                     <p className="text-center text-sm text-gray-500 mt-4">

@@ -7,7 +7,7 @@ const Nav = () => {
   const links = <>
     <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/'}>Home</NavLink></li>
     <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/meals'}>Meals</NavLink></li>
-    <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/dashboard'}>Dashboard</NavLink></li>
+    <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/dashboardLayouts'}>Dashboard</NavLink></li>
     {/* <li><NavLink className={({isActive})=>isActive?'text-red-600':''} to={'/'}>Home</NavLink></li> */}
   </>
   // ! handler logOut;
