@@ -81,24 +81,20 @@ const MyProfile = () => {
                     <div className="divider"></div>
 
                     <div className="flex flex-col md:flex-row gap-4">
-                        {/* Conditionly showing bnt */}
-                        {
-                            userData.role !== 'chef' && userData.role !== 'admin' && <button
-                                className="btn btn-secondary flex-1"
-                            >
-                                Be a Chef
-                            </button>
-                        }
 
-                        {userData?.role !== "admin" && (
-                            <button
-                               
-                                className="btn btn-secondary"
-                            >
-                                Be an Admin
-                            </button>
-                        )}
-
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            {userData?.role !== 'chef' && userData?.role !== 'admin' && (
+                                <button className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30'>
+                                    🍳 Be a Chef
+                                </button>
+                            )}
+                            {userData?.role !== 'admin' && (
+                                <button className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30' >
+                                    👑 Be an Admin
+                                </button>
+                            )}
+                        </div>
 
                     </div>
 
