@@ -34,7 +34,7 @@ const MyProfile = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `${info.toUpperCase()} Request Received`,
+                        title: `${info.charAt(0).toUpperCase() + info.slice(1)} Request Received`,
                         showConfirmButton: false,
                         timer: 1500
                     });
