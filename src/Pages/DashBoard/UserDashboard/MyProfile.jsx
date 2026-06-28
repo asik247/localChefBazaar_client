@@ -62,8 +62,8 @@ const MyProfile = () => {
 
                             <span
                                 className={`badge ${userData?.status === 'active'
-                                        ? 'badge-success'
-                                        : 'badge-error'
+                                    ? 'badge-success'
+                                    : 'badge-error'
                                     }`}
                             >
                                 {userData?.status}
@@ -81,18 +81,24 @@ const MyProfile = () => {
                     <div className="divider"></div>
 
                     <div className="flex flex-col md:flex-row gap-4">
+                        {/* Conditionly showing bnt */}
+                        {
+                            userData.role !== 'chef' && userData.role !== 'admin' && <button
+                                className="btn btn-secondary flex-1"
+                            >
+                                Be a Chef
+                            </button>
+                        }
 
-                        <button
-                            className="btn btn-primary flex-1"
-                        >
-                            Be a Chef
-                        </button>
+                        {userData?.role !== "admin" && (
+                            <button
+                               
+                                className="btn btn-secondary"
+                            >
+                                Be an Admin
+                            </button>
+                        )}
 
-                        <button
-                            className="btn btn-secondary flex-1"
-                        >
-                            Be an Admin
-                        </button>
 
                     </div>
 
