@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
+import Swal from 'sweetalert2';
 const MyProfile = () => {
     const { user } = useAuth();
     console.log('currnt user myprofiel', user);
@@ -15,6 +16,40 @@ const MyProfile = () => {
             return res.data
         }
     })
+    //? handler chef + admin btn;
+    const handlerChefAdmin = (info) => {
+        console.log(info);
+        const requestInfo = {
+            userName: userData.displayName,
+            userEmail: userData.email,
+            requestType: info,
+            requestStatus: 'pending',
+            requestTime: new Date()
+        }
+        // console.log('clicked handler chef btn', requestInfo);
+        instanceSecqure.post('/roleRequest', requestInfo)
+            .then(res => {
+                // console.log(res.data)
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${info.toUpperCase()} Request Received`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+
+    }
+    //? handler chef btn;
+    const handlerChef = () => {
+        handlerChefAdmin('chef');
+    }
+    //? handler admin btn;
+    const handlerAdmin = () => {
+        handlerChefAdmin('admin');
+    }
 
     return (
         <div className="max-w-4xl mx-auto p-6">
@@ -85,12 +120,12 @@ const MyProfile = () => {
                         {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-3">
                             {userData?.role !== 'chef' && userData?.role !== 'admin' && (
-                                <button className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30'>
+                                <button onClick={() => handlerChef('chef')} className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30'>
                                     🍳 Be a Chef
                                 </button>
                             )}
                             {userData?.role !== 'admin' && (
-                                <button className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30' >
+                                <button onClick={() => handlerAdmin('admin')} className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30' >
                                     👑 Be an Admin
                                 </button>
                             )}
