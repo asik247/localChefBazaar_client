@@ -5,7 +5,7 @@ const instanceSecqure = axios.create({
     baseURL: "http://localhost:3000/",
 })
 const useInstanceSecqure = () => {
-    const { user } = useAuth()
+    const { user,logOutUsers } = useAuth()
     // console.log(user.accessToken);
     //Todo useEffect;
     useEffect(() => {
@@ -23,7 +23,14 @@ const useInstanceSecqure = () => {
             return response
         }, (err) => {
             const status = err.response?.status;
-            console.log(status);
+            if(status === 401 || status === 403){
+                logOutUsers()
+                .then(()=>{
+                    console.log('forbidden access');
+                }).catch(err=>{
+                    console.log(err);
+                })
+            }
         })
 
 

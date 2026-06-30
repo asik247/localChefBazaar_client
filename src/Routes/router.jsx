@@ -12,6 +12,7 @@ import Order from "../Pages/OrdersPage/Order"
 import DashboardLayout from "../Layouts/DashboardLayout"
 import MyProfile from "../Pages/DashBoard/UserDashboard/MyProfile"
 import DashboarHome from "../Pages/DashBoard/DashboardHome/DashboarHome"
+import MyOrders from "../Pages/DashBoard/UserDashboard/MyOrders"
 const router = createBrowserRouter([
     {
         path:'/',
@@ -40,7 +41,8 @@ const router = createBrowserRouter([
         element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children:[
             {index:true,element:<PrivateRoute><DashboarHome></DashboarHome></PrivateRoute>},
-            {path:'myProfile',element:<PrivateRoute><MyProfile></MyProfile></PrivateRoute>}
+            {path:'myProfile',element:<PrivateRoute><MyProfile></MyProfile></PrivateRoute>},
+            {path:'myOrders',element:<PrivateRoute><MyOrders></MyOrders></PrivateRoute>},
         ]
     }
 ])

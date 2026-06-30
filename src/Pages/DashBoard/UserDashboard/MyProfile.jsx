@@ -5,10 +5,10 @@ import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Swal from 'sweetalert2';
 const MyProfile = () => {
     const { user } = useAuth();
-    console.log('currnt user myprofiel', user);
+    // console.log('currnt user myprofiel', user);
     const instanceSecqure = useInstanceSecqure()
     //? get user data;
-    const { data: userData = [] } = useQuery({
+    const { data: userData = {} } = useQuery({
         queryKey: ['users', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -18,7 +18,6 @@ const MyProfile = () => {
     })
     //? handler chef + admin btn;
     const handlerChefAdmin = (info) => {
-        console.log(info);
         const requestInfo = {
             userName: userData.displayName,
             userEmail: userData.email,
@@ -30,6 +29,16 @@ const MyProfile = () => {
         instanceSecqure.post('/roleRequest', requestInfo)
             .then(res => {
                 // console.log(res.data)
+                if (res.data.message == 'You already have a pending request.') {
+                    return Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${info.charAt(0).toUpperCase() + info.slice(1)} Request Already Pending`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                }
                 if (res.data.insertedId) {
                     Swal.fire({
                         position: "top-end",
