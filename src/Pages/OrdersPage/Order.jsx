@@ -29,6 +29,7 @@ const Order = () => {
         price: confarmOrderData.price,
         quantity,
         chefId: confarmOrderData.chef_id,
+        chefName: confarmOrderData.chef_name,
         paymentStatus: "Pending",
         buyerName: user?.displayName,
         buyerEmail: user?.email,
@@ -148,6 +149,19 @@ const Order = () => {
                         <input
                             type="text"
                             value={confarmOrderData.chef_id}
+                            readOnly
+                            className="w-full px-4 py-3 rounded-lg outline-none"
+                            style={{
+                                background: 'rgba(127,119,221,0.06)',
+                                border: '0.5px solid rgba(127,119,221,0.3)'
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1 font-medium">Chef Name</label>
+                        <input
+                            type="text"
+                            value={confarmOrderData.chef_name}
                             readOnly
                             className="w-full px-4 py-3 rounded-lg outline-none"
                             style={{
