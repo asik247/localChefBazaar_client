@@ -31,6 +31,7 @@ const MyOrders = () => {
             foodId:order.foodId,
             chefName:order.chefName,
             chefId:order.chefId,
+            trackingId:order.trackingId
 
         }
         // console.log(paymentInfo);
@@ -53,6 +54,9 @@ const MyOrders = () => {
                     <div className="p-5 space-y-3">
                         <h2 className="text-xl font-bold text-gray-800">
                             {order.mealName}
+                        </h2>
+                        <h2 className="text-xl font-bold text-gray-800">
+                            {order.trackingId}
                         </h2>
 
                         <div className="space-y-2 text-sm text-gray-600">
