@@ -20,15 +20,35 @@ const MyOrders = () => {
     if (loading) {
         return <Loading></Loading>
     }
+    //? handler payment;
+    const handlerPayment = (order)=>{
+        console.log('handler payment btn clicked and ',order);
+        const paymentInfo = {
+            buyerName:order.buyerName,
+            buyerEmail:order.buyerEmail,
+            mealName:order.mealName,
+            price:order.price,
+            foodId:order.foodId,
+            chefName:order.chefName,
+            chefId:order.chefId,
 
+        }
+        // console.log(paymentInfo);
+        instanceSecqure.post('/create-checkout-session',paymentInfo)
+        .then(res=>{
+            window.location.assign(res.data.url);
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
     return (
         <div className=" w-full max-w-7xl mx-auto px-4 grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             {ordersData.map((order) => (
                 <div
                     key={order._id}
-                    className="bg-white rounded-3xl overflow-hidden border border-orange-100 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="bg-white rounded-3xl overflow-hidden border border-orange-100 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ease-out"
                 >
-                   
+
                     {/* Content */}
                     <div className="p-5 space-y-3">
                         <h2 className="text-xl font-bold text-gray-800">
@@ -64,9 +84,9 @@ const MyOrders = () => {
                         {/* Payment Status */}
                         <div className="flex justify-between items-center pt-2">
                             <span
-                                className={`px-3 py-1 rounded-full text-xs font-bold ${order.paymentStatus === "paid"
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-red-100 text-red-600"
+                                className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-300 ${order.paymentStatus === "paid"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-red-100 text-red-600"
                                     }`}
                             >
                                 {order.paymentStatus}
@@ -75,8 +95,8 @@ const MyOrders = () => {
                             {/* Conditional Pay Button */}
                             {order.orderStatus === "accepted" &&
                                 order.paymentStatus === "Pending" && (
-                                    <button
-                                        className="px-5 py-2 rounded-xl text-white font-semibold bg-gradient-to-r from-orange-400 to-red-500 hover:scale-105 transition"
+                                    <button onClick={()=>handlerPayment(order)}
+                                        className="px-5 py-2 rounded-xl text-white font-semibold bg-gradient-to-r from-orange-400 to-red-500 shadow-md shadow-red-500/30 hover:scale-105 hover:shadow-red-500/50 active:scale-95 transition-all duration-300 ease-out"
                                     >
                                         Pay Now
                                     </button>

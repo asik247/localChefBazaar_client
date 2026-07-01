@@ -3,11 +3,11 @@ import React from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Swal from 'sweetalert2';
+
 const MyProfile = () => {
     const { user } = useAuth();
-    // console.log('currnt user myprofiel', user);
     const instanceSecqure = useInstanceSecqure()
-    //? get user data;
+
     const { data: userData = {} } = useQuery({
         queryKey: ['users', user?.email],
         enabled: !!user?.email,
@@ -16,7 +16,7 @@ const MyProfile = () => {
             return res.data
         }
     })
-    //? handler chef + admin btn;
+
     const handlerChefAdmin = (info) => {
         const requestInfo = {
             userName: userData.displayName,
@@ -25,10 +25,8 @@ const MyProfile = () => {
             requestStatus: 'pending',
             requestTime: new Date()
         }
-        // console.log('clicked handler chef btn', requestInfo);
         instanceSecqure.post('/roleRequest', requestInfo)
             .then(res => {
-                // console.log(res.data)
                 if (res.data.message == 'You already have a pending request.') {
                     return Swal.fire({
                         position: "top-end",
@@ -37,7 +35,6 @@ const MyProfile = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-
                 }
                 if (res.data.insertedId) {
                     Swal.fire({
@@ -49,20 +46,14 @@ const MyProfile = () => {
                     });
                 }
             })
+    }
 
-    }
-    //? handler chef btn;
-    const handlerChef = () => {
-        handlerChefAdmin('chef');
-    }
-    //? handler admin btn;
-    const handlerAdmin = () => {
-        handlerChefAdmin('admin');
-    }
+    const handlerChef = () => handlerChefAdmin('chef');
+    const handlerAdmin = () => handlerChefAdmin('admin');
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <div className="card bg-base-100 shadow-xl border">
+        <div className="max-w-4xl mx-auto p-6 animate-[fadeIn_0.6s_ease-out]">
+            <div className="card bg-base-100 shadow-xl border transition-all duration-300 hover:shadow-2xl">
 
                 <div className="card-body">
 
@@ -71,11 +62,11 @@ const MyProfile = () => {
                         <img
                             src={userData?.photoURL}
                             alt="profile"
-                            className="w-32 h-32 rounded-full object-cover border-4 border-primary"
+                            className="w-32 h-32 rounded-full object-cover border-4 border-primary transition-transform duration-300 hover:scale-105 hover:rotate-2 shadow-lg"
                         />
 
-                        <div className="flex-1">
-                            <h2 className="text-3xl font-bold">
+                        <div className="flex-1 text-center md:text-left">
+                            <h2 className="text-3xl font-bold animate-[slideIn_0.5s_ease-out]">
                                 {userData?.displayName}
                             </h2>
 
@@ -89,24 +80,24 @@ const MyProfile = () => {
 
                     <div className="grid md:grid-cols-2 gap-4">
 
-                        <div className="bg-base-200 p-4 rounded-xl">
+                        <div className="bg-base-200 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-md hover:bg-base-300/50">
                             <h3 className="font-semibold">Address</h3>
                             <p>{userData?.address || 'Not Added Yet'}</p>
                         </div>
 
-                        <div className="bg-base-200 p-4 rounded-xl">
+                        <div className="bg-base-200 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-md hover:bg-base-300/50">
                             <h3 className="font-semibold">Role</h3>
                             <p className="capitalize">
                                 {userData?.role}
                             </p>
                         </div>
 
-                        <div className="bg-base-200 p-4 rounded-xl">
+                        <div className="bg-base-200 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-md hover:bg-base-300/50">
                             <h3 className="font-semibold">Status</h3>
 
                             <span
-                                className={`badge ${userData?.status === 'active'
-                                    ? 'badge-success'
+                                className={`badge transition-all duration-300 ${userData?.status === 'active'
+                                    ? 'badge-success animate-pulse'
                                     : 'badge-error'
                                     }`}
                             >
@@ -114,27 +105,26 @@ const MyProfile = () => {
                             </span>
                         </div>
 
-                        {/* {userData?.role === 'chef' && (
-                            <div className="bg-base-200 p-4 rounded-xl">
-                                <h3 className="font-semibold">Chef ID</h3>
-                                <p>{userData?.chefId}</p>
-                            </div>
-                        )} */}
                     </div>
 
                     <div className="divider"></div>
 
                     <div className="flex flex-col md:flex-row gap-4">
 
-                        {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-3">
                             {userData?.role !== 'chef' && userData?.role !== 'admin' && (
-                                <button onClick={() => handlerChef('chef')} className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30'>
+                                <button
+                                    onClick={() => handlerChef('chef')}
+                                    className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-red-500/50 active:scale-95'
+                                >
                                     🍳 Be a Chef
                                 </button>
                             )}
                             {userData?.role !== 'admin' && (
-                                <button onClick={() => handlerAdmin('admin')} className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30' >
+                                <button
+                                    onClick={() => handlerAdmin('admin')}
+                                    className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-red-500/50 active:scale-95'
+                                >
                                     👑 Be an Admin
                                 </button>
                             )}
@@ -144,6 +134,17 @@ const MyProfile = () => {
 
                 </div>
             </div>
+
+            <style>{`
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes slideIn {
+                    from { opacity: 0; transform: translateX(-15px); }
+                    to { opacity: 1; transform: translateX(0); }
+                }
+            `}</style>
         </div>
     );
 };
