@@ -48,7 +48,7 @@ const router = createBrowserRouter([
             { path: 'myProfile', element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute> },
             { path: 'myOrders', element: <PrivateRoute><MyOrders></MyOrders></PrivateRoute> },
             { path: 'myReviews', element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute> },
-            { path: 'myReviews', element: <PrivateRoute><FavoritesMeals></FavoritesMeals></PrivateRoute> },
+            { path: 'favorites', element: <PrivateRoute><FavoritesMeals></FavoritesMeals></PrivateRoute> },
             { path: 'payment-success', element: <PrivateRoute><PaymentSuccess></PaymentSuccess></PrivateRoute> },
             { path: 'payment-cancelled', element: <PrivateRoute><PaymenntCancled></PaymenntCancled></PrivateRoute> },
         ]
