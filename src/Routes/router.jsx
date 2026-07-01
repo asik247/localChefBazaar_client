@@ -15,6 +15,7 @@ import DashboarHome from "../Pages/DashBoard/DashboardHome/DashboarHome"
 import MyOrders from "../Pages/DashBoard/UserDashboard/MyOrders"
 import PaymentSuccess from "../Pages/DashBoard/Payments/PaymentSuccess"
 import PaymenntCancled from "../Pages/DashBoard/Payments/PaymenntCancled"
+import MyReviews from "../Pages/DashBoard/UserDashboard/MyReviews"
 const router = createBrowserRouter([
     {
         path: '/',
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
             { index: true, element: <PrivateRoute><DashboarHome></DashboarHome></PrivateRoute> },
             { path: 'myProfile', element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute> },
             { path: 'myOrders', element: <PrivateRoute><MyOrders></MyOrders></PrivateRoute> },
+            { path: 'myReviews', element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute> },
             { path: 'payment-success', element: <PrivateRoute><PaymentSuccess></PaymentSuccess></PrivateRoute> },
             { path: 'payment-cancelled', element: <PrivateRoute><PaymenntCancled></PaymenntCancled></PrivateRoute> },
         ]

@@ -1,6 +1,7 @@
 import React from 'react';
 import { CgProfile } from 'react-icons/cg';
-import { FaClipboardList, FaHome } from 'react-icons/fa';
+import { FaClipboardList, FaHome  } from 'react-icons/fa';
+import { MdReviews } from "react-icons/md";
 import { Link, Outlet } from 'react-router';
 
 const DashboardLayout = () => {
@@ -70,6 +71,22 @@ const DashboardLayout = () => {
 
                                 <span className="is-drawer-close:hidden">
                                     My Orders
+                                </span>
+                            </Link>
+                        </li>
+                         {/* List item for my reviews page*/}
+                        <li>
+                            <Link
+                                to="/dashboardLayouts/myReviews"
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2"
+                                data-tip="My Reviews"
+                            >
+                                <div className="text-xl">
+                                   <MdReviews />
+                                </div>
+
+                                <span className="is-drawer-close:hidden">
+                                    My Reviews
                                 </span>
                             </Link>
                         </li>
