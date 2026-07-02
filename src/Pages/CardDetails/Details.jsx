@@ -150,7 +150,7 @@ const Details = () => {
                             {/* Favorite button */}
                             <button
                                 onClick={handleFavorite}
-                                className="absolute top-4 left-4 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg hover:scale-110 hover:bg-white transition-all duration-200"
+                                className="absolute cursor-pointer top-4 left-4 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg hover:scale-110 hover:bg-white transition-all duration-200"
                             >
                                 <Heart className="text-rose-500" size={20} fill="#f43f5e" />
                             </button>

@@ -21,26 +21,44 @@ const MyOrders = () => {
         return <Loading></Loading>
     }
     //? handler payment;
-    const handlerPayment = (order)=>{
-        console.log('handler payment btn clicked and ',order);
-        const paymentInfo = {
-            buyerName:order.buyerName,
-            buyerEmail:order.buyerEmail,
-            mealName:order.mealName,
-            price:order.price,
-            foodId:order.foodId,
-            chefName:order.chefName,
-            chefId:order.chefId,
-            trackingId:order.trackingId
+    // const handlerPayment = (order)=>{
+    //     console.log('handler payment btn clicked and ',order);
+    //     const paymentInfo = {
+    //         buyerName:order.buyerName,
+    //         buyerEmail:order.buyerEmail,
+    //         mealName:order.mealName,
+    //         price:order.price,
+    //         foodId:order.foodId,
+    //         chefName:order.chefName,
+    //         chefId:order.chefId,
+    //         trackingId:order.trackingId
 
+    //     }
+    //     // console.log(paymentInfo);
+    //     instanceSecqure.post('/create-checkout-session',paymentInfo)
+    //     .then(res=>{
+    //         window.location.assign(res.data.url);
+    //     }).catch(err=>{
+    //         console.log(err);
+    //     })
+    // }
+    //! handler payment 2 ;
+    const handlerPayment = (order) => {
+        //? post ordersInfo server side;
+        const ordersInfo = {
+            mealName: order.mealName,
+            foodId: order.foodId,
+            trackingId: order.trackingId,
+            price: order.price,
+            buyerEmail: order.buyerEmail
         }
-        // console.log(paymentInfo);
-        instanceSecqure.post('/create-checkout-session',paymentInfo)
-        .then(res=>{
-            window.location.assign(res.data.url);
-        }).catch(err=>{
-            console.log(err);
-        })
+        instanceSecqure.post('/create-checkout-session', ordersInfo)
+            .then(res => {
+                window.location.assign(res.data.url)
+            }).catch(err => {
+                console.log(err);
+            })
+
     }
     return (
         <div className=" w-full max-w-7xl mx-auto px-4 grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
@@ -55,9 +73,7 @@ const MyOrders = () => {
                         <h2 className="text-xl font-bold text-gray-800">
                             {order.mealName}
                         </h2>
-                        <h2 className="text-xl font-bold text-gray-800">
-                            {order.trackingId}
-                        </h2>
+
 
                         <div className="space-y-2 text-sm text-gray-600">
                             <p>
@@ -98,8 +114,8 @@ const MyOrders = () => {
 
                             {/* Conditional Pay Button */}
                             {order.orderStatus === "accepted" &&
-                                order.paymentStatus === "Pending" && (
-                                    <button onClick={()=>handlerPayment(order)}
+                                order.paymentStatus === "pending" && (
+                                    <button onClick={() => handlerPayment(order)}
                                         className="px-5 py-2 rounded-xl text-white font-semibold bg-gradient-to-r from-orange-400 to-red-500 shadow-md shadow-red-500/30 hover:scale-105 hover:shadow-red-500/50 active:scale-95 transition-all duration-300 ease-out"
                                     >
                                         Pay Now

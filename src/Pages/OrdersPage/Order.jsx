@@ -30,7 +30,7 @@ const Order = () => {
         quantity,
         chefId: confarmOrderData.chef_id,
         chefName: confarmOrderData.chef_name,
-        paymentStatus: "Pending",
+        paymentStatus: "pending",
         buyerName: user?.displayName,
         buyerEmail: user?.email,
         userAddress,
