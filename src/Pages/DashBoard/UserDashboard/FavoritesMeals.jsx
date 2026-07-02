@@ -32,7 +32,7 @@ const FavoritesMeals = () => {
             text: "Your favorite meal will be removed!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#f97316",
+            confirmButtonColor: "#ef4444",
             cancelButtonColor: "#6b7280",
             confirmButtonText: "Yes, remove it!",
             background: "#fff",
@@ -44,7 +44,7 @@ const FavoritesMeals = () => {
                             title: "Deleted!",
                             text: "Your favorite meal has been removed.",
                             icon: "success",
-                            confirmButtonColor: "#f97316",
+                            confirmButtonColor: "#ef4444",
                         });
                         refetch();
                     })
@@ -62,7 +62,7 @@ const FavoritesMeals = () => {
     const DeleteButton = ({ id, full }) => (
         <button
             onClick={() => handlerRemove(id)}
-            className={`inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-red-50 text-red-600 font-medium text-xs hover:bg-red-500 hover:text-white transition-colors duration-200 border border-red-100 hover:border-red-500 ${full ? "w-full" : ""}`}
+            className={`btn btn-sm btn-error btn-outline rounded-full gap-1.5 ${full ? "w-full" : ""}`}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -83,31 +83,43 @@ const FavoritesMeals = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50 px-3 py-6 sm:p-6 md:p-8">
-            <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen bg-base-200/40">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
                 {/* Header */}
-                <div className="mb-6 md:mb-8">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-800">
-                        My Favorite Meals
-                    </h1>
-                    <p className="text-gray-500 mt-1 text-sm sm:text-base">
-                        You have{" "}
-                        <span className="font-semibold text-orange-500">
-                            {favoritesData.length}
-                        </span>{" "}
-                        {favoritesData.length === 1 ? "meal" : "meals"} saved as favorite
-                    </p>
+                <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <p className="text-xs font-semibold tracking-[0.2em] text-red-500 uppercase mb-2">
+                            Saved for later
+                        </p>
+                        <h1 className="text-3xl sm:text-4xl font-bold text-base-content tracking-tight">
+                            My Favorite Meals
+                        </h1>
+                    </div>
+
+                    {/* Stat card */}
+                    <div className="stats shadow rounded-2xl">
+                        <div className="stat py-3 px-6">
+                            <div className="stat-title text-xs">
+                                {favoritesData.length === 1 ? "Meal Saved" : "Meals Saved"}
+                            </div>
+                            <div className="stat-value text-error text-3xl">
+                                {favoritesData.length}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Empty state */}
                 {favoritesData.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-sm border border-gray-100 py-16 sm:py-20 px-4 sm:px-6">
-                        <div className="text-5xl sm:text-6xl mb-4">🍽️</div>
-                        <h2 className="text-lg sm:text-xl font-semibold text-gray-700 text-center">
-                            No favorite meals yet
-                        </h2>
-                        <p className="text-gray-400 mt-2 text-center text-sm sm:text-base">
+                    <div className="flex flex-col items-center justify-center text-center py-24 border border-dashed border-base-300 rounded-3xl bg-base-100">
+                        <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </div>
+                        <p className="text-base-content font-semibold mb-1">No favorite meals yet</p>
+                        <p className="text-base-content/60 text-sm max-w-xs">
                             Meals you mark as favorite will show up here.
                         </p>
                     </div>
@@ -118,28 +130,27 @@ const FavoritesMeals = () => {
                             {favoritesData.map((favorite, index) => (
                                 <div
                                     key={favorite._id}
-                                    className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4"
+                                    className="group rounded-3xl border border-base-300 bg-base-100 p-5 shadow-sm hover:shadow-xl hover:bg-red-50 transition-all duration-200"
                                 >
                                     <div className="flex items-start justify-between gap-3">
                                         <div className="flex-1 min-w-0">
-                                            <span className="text-xs font-semibold text-gray-400">
+                                            <span className="text-xs font-semibold text-base-content/40">
                                                 #{index + 1}
                                             </span>
-                                            <h3 className="font-bold text-gray-800 text-base truncate">
+                                            <h3 className="font-semibold text-base-content text-lg truncate">
                                                 {favorite.mealName}
                                             </h3>
-                                            <p className="text-gray-500 text-sm mt-0.5">
-                                                Chef: <span className="text-gray-700">{favorite.chefName}</span>
+                                            <p className="text-base-content/60 text-sm mt-0.5">
+                                                Chef: <span className="text-base-content/80 font-medium">{favorite.chefName}</span>
                                             </p>
                                         </div>
-                                        <span className="shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                        <span className="badge badge-error badge-outline shrink-0 font-semibold">
                                             ${favorite.price}
                                         </span>
                                     </div>
 
-                                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
-                                        <span className="text-xs text-gray-400">
-                                            Added:{" "}
+                                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-base-200">
+                                        <span className="text-xs text-base-content/40 font-medium">
                                             {new Date(favorite.addedTime).toLocaleDateString('en-US', {
                                                 year: 'numeric',
                                                 month: 'short',
@@ -155,11 +166,11 @@ const FavoritesMeals = () => {
                         </div>
 
                         {/* ---------- Desktop / Tablet Table View (md and up) ---------- */}
-                        <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div className="hidden md:block rounded-3xl border border-base-300 bg-base-100 shadow-sm overflow-hidden">
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm text-left">
                                     <thead>
-                                        <tr className="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider border-b border-gray-100">
+                                        <tr className="bg-base-200/60 text-base-content/60 uppercase text-xs tracking-wider border-b border-base-200">
                                             <th className="px-6 py-4 font-semibold">#</th>
                                             <th className="px-6 py-4 font-semibold">Meal Name</th>
                                             <th className="px-6 py-4 font-semibold">Chef Name</th>
@@ -173,27 +184,27 @@ const FavoritesMeals = () => {
                                         {favoritesData.map((favorite, index) => (
                                             <tr
                                                 key={favorite._id}
-                                                className="border-b border-gray-100 last:border-0 hover:bg-orange-50/50 transition-colors duration-150"
+                                                className="border-b border-base-200 last:border-0 hover:bg-red-50 transition-colors duration-150"
                                             >
-                                                <td className="px-6 py-4 text-gray-500 font-medium">
+                                                <td className="px-6 py-4 text-base-content/50 font-medium">
                                                     {index + 1}
                                                 </td>
 
-                                                <td className="px-6 py-4 font-semibold text-gray-800">
+                                                <td className="px-6 py-4 font-semibold text-base-content">
                                                     {favorite.mealName}
                                                 </td>
 
-                                                <td className="px-6 py-4 text-gray-600">
+                                                <td className="px-6 py-4 text-base-content/70">
                                                     {favorite.chefName}
                                                 </td>
 
                                                 <td className="px-6 py-4">
-                                                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                                    <span className="badge badge-error badge-outline font-semibold">
                                                         ${favorite.price}
                                                     </span>
                                                 </td>
 
-                                                <td className="px-6 py-4 text-gray-500">
+                                                <td className="px-6 py-4 text-base-content/50">
                                                     {new Date(
                                                         favorite.addedTime
                                                     ).toLocaleDateString('en-US', {

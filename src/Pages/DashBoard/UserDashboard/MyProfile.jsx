@@ -2,20 +2,25 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
+import Loading from '../../../Shares/Loading';
 import Swal from 'sweetalert2';
 
 const MyProfile = () => {
-    const { user } = useAuth();
-    const instanceSecqure = useInstanceSecqure()
+    const { user, loading } = useAuth();
+    const instanceSecqure = useInstanceSecqure();
 
-    const { data: userData = {} } = useQuery({
+    const { data: userData = {}, isLoading } = useQuery({
         queryKey: ['users', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await instanceSecqure(`/users/${user?.email}`)
-            return res.data
+            const res = await instanceSecqure(`/users/${user?.email}`);
+            return res.data;
         }
-    })
+    });
+
+    if (loading || isLoading) {
+        return <Loading></Loading>;
+    }
 
     const handlerChefAdmin = (info) => {
         const requestInfo = {
@@ -24,7 +29,7 @@ const MyProfile = () => {
             requestType: info,
             requestStatus: 'pending',
             requestTime: new Date()
-        }
+        };
         instanceSecqure.post('/roleRequest', requestInfo)
             .then(res => {
                 if (res.data.message == 'You already have a pending request.') {
@@ -45,106 +50,109 @@ const MyProfile = () => {
                         timer: 1500
                     });
                 }
-            })
-    }
+            });
+    };
 
     const handlerChef = () => handlerChefAdmin('chef');
     const handlerAdmin = () => handlerChefAdmin('admin');
 
     return (
-        <div className="max-w-4xl mx-auto p-6 animate-[fadeIn_0.6s_ease-out]">
-            <div className="card bg-base-100 shadow-xl border transition-all duration-300 hover:shadow-2xl">
+        <div className="min-h-screen bg-base-200/40">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-                <div className="card-body">
+                {/* Header */}
+                <div className="mb-8">
+                    <p className="text-xs font-semibold tracking-[0.2em] text-red-500 uppercase mb-2">
+                        Account
+                    </p>
+                    <h1 className="text-3xl sm:text-4xl font-bold text-base-content tracking-tight">
+                        My Profile
+                    </h1>
+                </div>
 
-                    <div className="flex flex-col md:flex-row items-center gap-6">
+                <div className="rounded-3xl border border-base-300 bg-base-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+                    <div className="p-6 sm:p-8">
 
-                        <img
-                            src={userData?.photoURL}
-                            alt="profile"
-                            className="w-32 h-32 rounded-full object-cover border-4 border-primary transition-transform duration-300 hover:scale-105 hover:rotate-2 shadow-lg"
-                        />
+                        {/* Identity */}
+                        <div className="flex flex-col md:flex-row items-center gap-6">
+                            <img
+                                src={userData?.photoURL}
+                                alt="profile"
+                                className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-red-100 shadow-md transition-transform duration-300 hover:scale-105"
+                            />
 
-                        <div className="flex-1 text-center md:text-left">
-                            <h2 className="text-3xl font-bold animate-[slideIn_0.5s_ease-out]">
-                                {userData?.displayName}
-                            </h2>
-
-                            <p className="text-gray-500">
-                                {userData?.email}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="divider"></div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-
-                        <div className="bg-base-200 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-md hover:bg-base-300/50">
-                            <h3 className="font-semibold">Address</h3>
-                            <p>{userData?.address || 'Not Added Yet'}</p>
-                        </div>
-
-                        <div className="bg-base-200 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-md hover:bg-base-300/50">
-                            <h3 className="font-semibold">Role</h3>
-                            <p className="capitalize">
-                                {userData?.role}
-                            </p>
-                        </div>
-
-                        <div className="bg-base-200 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-md hover:bg-base-300/50">
-                            <h3 className="font-semibold">Status</h3>
+                            <div className="flex-1 text-center md:text-left">
+                                <h2 className="text-2xl sm:text-3xl font-bold text-base-content">
+                                    {userData?.displayName}
+                                </h2>
+                                <p className="text-base-content/60 mt-1">
+                                    {userData?.email}
+                                </p>
+                            </div>
 
                             <span
-                                className={`badge transition-all duration-300 ${userData?.status === 'active'
-                                    ? 'badge-success animate-pulse'
-                                    : 'badge-error'
+                                className={`badge badge-outline font-semibold capitalize ${userData?.status === 'active' ? 'badge-success' : 'badge-error'
                                     }`}
                             >
                                 {userData?.status}
                             </span>
                         </div>
 
-                    </div>
+                        <div className="divider my-6"></div>
 
-                    <div className="divider"></div>
+                        {/* Info grid */}
+                        <div className="grid sm:grid-cols-2 gap-4">
+                            <div className="rounded-2xl border border-base-200 bg-base-200/40 p-4 hover:bg-red-50 hover:border-red-100 transition-all duration-200">
+                                <h3 className="text-xs font-semibold tracking-widest text-base-content/50 uppercase mb-1">
+                                    Address
+                                </h3>
+                                <p className="text-base-content font-medium">
+                                    {userData?.address || 'Not Added Yet'}
+                                </p>
+                            </div>
 
-                    <div className="flex flex-col md:flex-row gap-4">
-
-                        <div className="flex flex-col sm:flex-row gap-3">
-                            {userData?.role !== 'chef' && userData?.role !== 'admin' && (
-                                <button
-                                    onClick={() => handlerChef('chef')}
-                                    className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-red-500/50 active:scale-95'
-                                >
-                                    🍳 Be a Chef
-                                </button>
-                            )}
-                            {userData?.role !== 'admin' && (
-                                <button
-                                    onClick={() => handlerAdmin('admin')}
-                                    className='btn bg-gradient-to-r from-orange-400 to-red-500 border-none text-white font-semibold rounded-full px-8 shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-red-500/50 active:scale-95'
-                                >
-                                    👑 Be an Admin
-                                </button>
-                            )}
+                            <div className="rounded-2xl border border-base-200 bg-base-200/40 p-4 hover:bg-red-50 hover:border-red-100 transition-all duration-200">
+                                <h3 className="text-xs font-semibold tracking-widest text-base-content/50 uppercase mb-1">
+                                    Role
+                                </h3>
+                                <p className="text-base-content font-medium capitalize">
+                                    {userData?.role}
+                                </p>
+                            </div>
                         </div>
 
-                    </div>
+                        <div className="divider my-6"></div>
 
+                        {/* Role request actions */}
+                        {(userData?.role !== 'chef' && userData?.role !== 'admin') || userData?.role !== 'admin' ? (
+                            <div>
+                                <h3 className="text-xs font-semibold tracking-widest text-base-content/50 uppercase mb-3">
+                                    Grow your account
+                                </h3>
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    {userData?.role !== 'chef' && userData?.role !== 'admin' && (
+                                        <button
+                                            onClick={handlerChef}
+                                            className="btn rounded-full px-8 text-white font-semibold border-none bg-gradient-to-r from-orange-400 to-red-500 shadow-md shadow-red-500/30 hover:scale-105 hover:shadow-red-500/50 active:scale-95 transition-all duration-300"
+                                        >
+                                            🍳 Be a Chef
+                                        </button>
+                                    )}
+                                    {userData?.role !== 'admin' && (
+                                        <button
+                                            onClick={handlerAdmin}
+                                            className="btn rounded-full px-8 text-white font-semibold border-none bg-gradient-to-r from-orange-400 to-red-500 shadow-md shadow-red-500/30 hover:scale-105 hover:shadow-red-500/50 active:scale-95 transition-all duration-300"
+                                        >
+                                            👑 Be an Admin
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ) : null}
+
+                    </div>
                 </div>
             </div>
-
-            <style>{`
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-                @keyframes slideIn {
-                    from { opacity: 0; transform: translateX(-15px); }
-                    to { opacity: 1; transform: translateX(0); }
-                }
-            `}</style>
         </div>
     );
 };

@@ -3,46 +3,27 @@ import useAuth from '../../../Hooks/useAuth';
 import Loading from '../../../Shares/Loading';
 import { useQuery } from '@tanstack/react-query';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
+
 const MyOrders = () => {
     //? current user get;
     const { user, loading } = useAuth();
-    const instanceSecqure = useInstanceSecqure()
-    // console.log('current user order page', user);
+    const instanceSecqure = useInstanceSecqure();
+
     //! load login user orders info in db;
-    const { data: ordersData = [] } = useQuery({
+    const { data: ordersData = [], isLoading } = useQuery({
         queryKey: ['orders', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await instanceSecqure.get(`/orders/${user?.email}`)
-            return res.data
+            const res = await instanceSecqure.get(`/orders/${user?.email}`);
+            return res.data;
         }
-    })
-    if (loading) {
-        return <Loading></Loading>
-    }
-    //? handler payment;
-    // const handlerPayment = (order)=>{
-    //     console.log('handler payment btn clicked and ',order);
-    //     const paymentInfo = {
-    //         buyerName:order.buyerName,
-    //         buyerEmail:order.buyerEmail,
-    //         mealName:order.mealName,
-    //         price:order.price,
-    //         foodId:order.foodId,
-    //         chefName:order.chefName,
-    //         chefId:order.chefId,
-    //         trackingId:order.trackingId
+    });
 
-    //     }
-    //     // console.log(paymentInfo);
-    //     instanceSecqure.post('/create-checkout-session',paymentInfo)
-    //     .then(res=>{
-    //         window.location.assign(res.data.url);
-    //     }).catch(err=>{
-    //         console.log(err);
-    //     })
-    // }
-    //! handler payment 2 ;
+    if (loading || isLoading) {
+        return <Loading></Loading>;
+    }
+
+    //! handler payment;
     const handlerPayment = (order) => {
         //? post ordersInfo server side;
         const ordersInfo = {
@@ -51,80 +32,138 @@ const MyOrders = () => {
             trackingId: order.trackingId,
             price: order.price,
             buyerEmail: order.buyerEmail
-        }
+        };
         instanceSecqure.post('/create-checkout-session', ordersInfo)
             .then(res => {
-                window.location.assign(res.data.url)
+                window.location.assign(res.data.url);
             }).catch(err => {
                 console.log(err);
-            })
+            });
+    };
 
-    }
+    // ? quick stats derived from orders;
+    const totalOrders = ordersData.length;
+    const paidCount = ordersData.filter((o) => o.paymentStatus === 'paid').length;
+    const pendingCount = ordersData.filter((o) => o.paymentStatus === 'pending').length;
+    const totalSpent = ordersData
+        .filter((o) => o.paymentStatus === 'paid')
+        .reduce((sum, o) => sum + Number(o.price || 0), 0);
+
     return (
-        <div className=" w-full max-w-7xl mx-auto px-4 grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {ordersData.map((order) => (
-                <div
-                    key={order._id}
-                    className="bg-white rounded-3xl overflow-hidden border border-orange-100 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ease-out"
-                >
+        <div className="min-h-screen bg-base-200/40">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
-                    {/* Content */}
-                    <div className="p-5 space-y-3">
-                        <h2 className="text-xl font-bold text-gray-800">
-                            {order.mealName}
-                        </h2>
+                {/* Header */}
+                <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <p className="text-xs font-semibold tracking-[0.2em] text-red-500 uppercase mb-2">
+                            Order history
+                        </p>
+                        <h1 className="text-3xl sm:text-4xl font-bold text-base-content tracking-tight">
+                            My Orders
+                        </h1>
+                    </div>
 
-
-                        <div className="space-y-2 text-sm text-gray-600">
-                            <p>
-                                <span className="font-semibold">Price:</span> ৳{order.price}
-                            </p>
-
-                            <p>
-                                <span className="font-semibold">Quantity:</span>{" "}
-                                {order.quantity}
-                            </p>
-
-                            <p>
-                                <span className="font-semibold">Delivery Time:</span>{" "}
-                                {order.orderTime}
-                            </p>
-
-                            <p>
-                                <span className="font-semibold">Chef Name:</span>{" "}
-                                {order.chefName}
-                            </p>
-
-                            <p>
-                                <span className="font-semibold">Chef ID:</span>{" "}
-                                {order.chefId}
-                            </p>
+                    {/* Stats row */}
+                    <div className="stats shadow rounded-2xl">
+                        <div className="stat py-3 px-6">
+                            <div className="stat-title text-xs">Total Orders</div>
+                            <div className="stat-value text-base-content text-3xl">
+                                {totalOrders}
+                            </div>
                         </div>
-
-                        {/* Payment Status */}
-                        <div className="flex justify-between items-center pt-2">
-                            <span
-                                className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-300 ${order.paymentStatus === "paid"
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-red-100 text-red-600"
-                                    }`}
-                            >
-                                {order.paymentStatus}
-                            </span>
-
-                            {/* Conditional Pay Button */}
-                            {order.orderStatus === "accepted" &&
-                                order.paymentStatus === "pending" && (
-                                    <button onClick={() => handlerPayment(order)}
-                                        className="px-5 py-2 rounded-xl text-white font-semibold bg-gradient-to-r from-orange-400 to-red-500 shadow-md shadow-red-500/30 hover:scale-105 hover:shadow-red-500/50 active:scale-95 transition-all duration-300 ease-out"
-                                    >
-                                        Pay Now
-                                    </button>
-                                )}
+                        <div className="stat py-3 px-6">
+                            <div className="stat-title text-xs">Paid</div>
+                            <div className="stat-value text-success text-3xl">
+                                {paidCount}
+                            </div>
+                        </div>
+                        <div className="stat py-3 px-6">
+                            <div className="stat-title text-xs">Pending</div>
+                            <div className="stat-value text-error text-3xl">
+                                {pendingCount}
+                            </div>
+                        </div>
+                        <div className="stat py-3 px-6">
+                            <div className="stat-title text-xs">Total Spent</div>
+                            <div className="stat-value text-base-content text-3xl">
+                                ৳{totalSpent}
+                            </div>
                         </div>
                     </div>
                 </div>
-            ))}
+
+                {/* Empty state */}
+                {ordersData.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center text-center py-24 border border-dashed border-base-300 rounded-3xl bg-base-100">
+                        <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <p className="text-base-content font-semibold mb-1">No orders yet</p>
+                        <p className="text-base-content/60 text-sm max-w-xs">
+                            Meals you order will show up here so you can track and pay for them.
+                        </p>
+                    </div>
+                ) : (
+                    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                        {ordersData.map((order) => (
+                            <div
+                                key={order._id}
+                                className="group flex flex-col justify-between rounded-3xl border border-base-300 bg-base-100 p-5 shadow-sm hover:shadow-xl hover:bg-red-50 transition-all duration-200"
+                            >
+                                <div>
+                                    <div className="flex items-start justify-between gap-2 mb-3">
+                                        <h2 className="text-lg font-semibold text-base-content leading-snug">
+                                            {order.mealName}
+                                        </h2>
+                                        <span
+                                            className={`badge badge-outline shrink-0 font-semibold capitalize ${order.paymentStatus === 'paid' ? 'badge-success' : 'badge-error'
+                                                }`}
+                                        >
+                                            {order.paymentStatus}
+                                        </span>
+                                    </div>
+
+                                    <div className="space-y-1.5 text-sm text-base-content/70">
+                                        <p>
+                                            <span className="font-semibold text-base-content/90">Price:</span> ৳{order.price}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold text-base-content/90">Quantity:</span> {order.quantity}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold text-base-content/90">Delivery Time:</span> {order.orderTime}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold text-base-content/90">Chef Name:</span> {order.chefName}
+                                        </p>
+                                        <p className="truncate">
+                                            <span className="font-semibold text-base-content/90">Chef ID:</span> {order.chefId}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="mt-5 pt-4 border-t border-base-200 flex items-center justify-between">
+                                    <span className="text-xs text-base-content/40 font-medium capitalize">
+                                        {order.orderStatus}
+                                    </span>
+
+                                    {order.orderStatus === 'accepted' && order.paymentStatus === 'pending' && (
+                                        <button
+                                            onClick={() => handlerPayment(order)}
+                                            className="btn btn-sm rounded-full text-white bg-gradient-to-r from-orange-400 to-red-500 border-none shadow-md shadow-red-500/30 hover:scale-105 hover:shadow-red-500/50 active:scale-95 transition-all duration-300"
+                                        >
+                                            Pay Now
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

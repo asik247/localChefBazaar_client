@@ -62,6 +62,38 @@ const MyReviews = () => {
             setSaving(false);
         }
     };
+    //? remvoe review;
+    const handlerRemove = async (id) => {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "This review will be permanently removed!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ef4444",
+            cancelButtonColor: "#6b7280",
+            confirmButtonText: "Yes, remove it!",
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await instanceSecqure.delete(`/reviews/delete/${id}`);
+                await refetch();
+                Swal.fire({
+                    icon: "success",
+                    title: "Removed!",
+                    text: "Your review has been deleted.",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Something went wrong",
+                    text: error?.response?.data?.message || "Please try again."
+                });
+            }
+        }
+    };
 
     // ? reusable readonly star rating for cards;
     const ReadonlyStars = ({ value }) => (
@@ -139,7 +171,7 @@ const MyReviews = () => {
                                         {review.comment}
                                     </p>
                                 </div>
-
+                                {/* edit remove btn here */}
                                 <div className="mt-5 pt-4 border-t border-base-200 flex items-center justify-between">
                                     <p className="text-xs text-base-content/40 font-medium">
                                         {review.createdAt
@@ -150,12 +182,51 @@ const MyReviews = () => {
                                             })
                                             : 'N/A'}
                                     </p>
-                                    <button
-                                        onClick={() => handlerModalOpen(review)}
-                                        className="btn btn-sm btn-error btn-outline rounded-full"
-                                    >
-                                        Edit Review
-                                    </button>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => handlerModalOpen(review)}
+                                            className="btn btn-sm btn-error btn-outline rounded-full gap-1.5"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="h-4 w-4 shrink-0"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                strokeWidth={2}
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z" />
+                                            </svg>
+                                            Edit
+                                        </button>
+
+                                        <button
+                                            onClick={() => handlerRemove(review._id)}
+                                            className="btn btn-sm btn-ghost text-error hover:bg-error/10 rounded-full gap-1.5"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="h-4 w-4 shrink-0"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                strokeWidth={2}
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                            Remove
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
