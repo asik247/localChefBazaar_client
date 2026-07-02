@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import useInstance from '../../Hooks/useInstance';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 const Order = () => {
     const { user } = useAuth();
+    const navegate = useNavigate()
     const { id } = useParams();
     const instance = useInstance();
     //Todo get db data;
@@ -62,7 +63,9 @@ const Order = () => {
 
                 form.reset();
             }
+            navegate('/dashboardLayouts/myOrders')
         }
+
     } catch (error) {
         console.log(error);
         Swal.fire({

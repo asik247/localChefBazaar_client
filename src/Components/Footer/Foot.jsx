@@ -15,7 +15,7 @@ const Foot = () => {
                 <span className="text-white font-bold text-sm">🍽️</span>
               </div>
               <span className="font-bold text-base-content text-lg">
-                Foodie<span className="text-red-500">Hub</span>
+                LocalChef<span className="text-red-500">Bazaar</span>
               </span>
             </div>
             <p className="text-sm text-base-content/60 max-w-xs leading-relaxed">
