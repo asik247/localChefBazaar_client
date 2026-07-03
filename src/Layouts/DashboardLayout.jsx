@@ -1,19 +1,41 @@
 import React from 'react';
 import { CgProfile } from 'react-icons/cg';
-import { FaClipboardList, FaHandHoldingHeart, FaHome } from 'react-icons/fa';
-import { MdReviews } from "react-icons/md";
+import { FaChartBar, FaClipboardCheck, FaClipboardList, FaHandHoldingHeart, FaHome, FaPlusCircle, FaUsersCog, FaUtensils } from 'react-icons/fa';
+import { MdPendingActions, MdReviews } from "react-icons/md";
 import { Link, Outlet, useLocation } from 'react-router';
+import useRole from '../Hooks/useRole';
 
-const navItems = [
+const userLinks = [
     { to: '/dashboardLayouts', label: 'Home', icon: FaHome, end: true },
     { to: '/dashboardLayouts/myProfile', label: 'My Profile', icon: CgProfile },
     { to: '/dashboardLayouts/myOrders', label: 'My Orders', icon: FaClipboardList },
     { to: '/dashboardLayouts/myReviews', label: 'My Reviews', icon: MdReviews },
     { to: '/dashboardLayouts/favorites', label: 'My Favorites', icon: FaHandHoldingHeart },
 ];
+const chefLinks = [
+    { to: '/dashboardLayouts', label: 'Home', icon: FaHome, end: true },
+    { to: '/dashboardLayouts/myProfileChef', label: 'My Profile', icon: CgProfile },
+    { to: '/dashboardLayouts/createMeal', label: 'Create Meal', icon: FaPlusCircle },
+    { to: '/dashboardLayouts/myMeals', label: 'My Meal', icon: FaUtensils },
+    { to: '/dashboardLayouts/orderRequest', label: 'Order Request', icon: MdPendingActions },
+];
+const adminLinks = [
+    { to: '/dashboardLayouts', label: 'Home', icon: FaHome, end: true },
+    { to: '/dashboardLayouts/adminProfile', label: 'My Profile', icon: CgProfile },
+    { to: '/dashboardLayouts/manageUsers', label: 'Manage Users', icon: FaUsersCog },
+    { to: '/dashboardLayouts/manageRequest', label: 'Manage Request', icon: FaClipboardCheck },
+    { to: '/dashboardLayouts/platformStatistics', label: 'Platform Statistics', icon: FaChartBar },
+];
 
 const DashboardLayout = () => {
     const location = useLocation();
+    const { userRole } = useRole();
+    const role = userRole.role;
+
+    const links =
+        role === 'admin' ? adminLinks :
+            role === 'chef' ? chefLinks :
+                userLinks;
 
     const isActive = (item) =>
         item.end
@@ -21,7 +43,7 @@ const DashboardLayout = () => {
             : location.pathname.startsWith(item.to);
 
     const activeLabel =
-        navItems.find((item) => isActive(item))?.label || 'Dashboard';
+        links.find((item) => isActive(item))?.label || 'Dashboard';
 
     return (
         <div className="drawer lg:drawer-open">
@@ -76,7 +98,7 @@ const DashboardLayout = () => {
 
                 <div className="flex min-h-full flex-col bg-base-100 border-r border-base-300 is-drawer-close:w-16 is-drawer-open:w-64 lg:w-64 transition-all duration-200">
 
-                    {/* Brand add nav similer code✅✅ */}
+                    {/* Brand */}
                     <Link to={'/'}>
                         <div className="flex items-center gap-2.5 px-4 h-16 border-b border-base-300 is-drawer-close:justify-center">
                             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center shrink-0 shadow-md shadow-red-500/30">
@@ -88,14 +110,16 @@ const DashboardLayout = () => {
                         </div>
                     </Link>
 
-                    {/* Nav */}
+                    {/* Nav links based on role */}
                     <ul className="menu w-full grow px-3 py-4 gap-1">
                         <li className="menu-title is-drawer-close:hidden text-xs tracking-widest">
                             Menu
                         </li>
-                        {navItems.map((item) => {
+                        {/* Dynamic links sowing */}
+                        {links.map((item) => {
                             const active = isActive(item);
                             const Icon = item.icon;
+
                             return (
                                 <li key={item.to}>
                                     <Link
