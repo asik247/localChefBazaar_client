@@ -21,6 +21,10 @@ import CreateMeal from "../Pages/DashBoard/ChefDashboard/CreateMeal"
 import MyProfileChef from "../Pages/DashBoard/ChefDashboard/MyProfileChef"
 import MyMeals from "../Pages/DashBoard/ChefDashboard/MyMeals"
 import OrderRequest from "../Pages/DashBoard/ChefDashboard/OrderRequest"
+import AdminProfile from "../Pages/DashBoard/AdminDashboard/AdminProfile"
+import ManageUsers from "../Pages/DashBoard/AdminDashboard/ManageUsers"
+import ManageRequest from "../Pages/DashBoard/AdminDashboard/ManageRequest"
+import PlatformStatistics from "../Pages/DashBoard/AdminDashboard/PlatformStatistics"
 const router = createBrowserRouter([
     {
         path: '/',
@@ -56,10 +60,15 @@ const router = createBrowserRouter([
             { path: 'payment-success', element: <PrivateRoute><PaymentSuccess></PaymentSuccess></PrivateRoute> },
             { path: 'payment-cancelled', element: <PrivateRoute><PaymenntCancled></PaymenntCancled></PrivateRoute> },
             //Todo Chef info;
-            {path:'myProfileChef',element:<PrivateRoute><MyProfileChef></MyProfileChef></PrivateRoute>},
-            {path:'createMeal',element:<PrivateRoute><CreateMeal></CreateMeal></PrivateRoute>},
-            {path:'myMeals',element:<PrivateRoute><MyMeals></MyMeals></PrivateRoute>},
-            {path:'orderRequest',element:<PrivateRoute><OrderRequest></OrderRequest></PrivateRoute>},
+            { path: 'myProfileChef', element: <PrivateRoute><MyProfileChef></MyProfileChef></PrivateRoute> },
+            { path: 'createMeal', element: <PrivateRoute><CreateMeal></CreateMeal></PrivateRoute> },
+            { path: 'myMeals', element: <PrivateRoute><MyMeals></MyMeals></PrivateRoute> },
+            { path: 'orderRequest', element: <PrivateRoute><OrderRequest></OrderRequest></PrivateRoute> },
+            //Todo Admin info;
+            { path: 'adminProfile', element: <PrivateRoute><AdminProfile></AdminProfile></PrivateRoute> },
+            { path: 'manageUsers', element: <PrivateRoute><ManageUsers></ManageUsers></PrivateRoute> },
+            { path: 'manageRequest', element: <PrivateRoute><ManageRequest></ManageRequest></PrivateRoute> },
+            { path: 'platformStatistics', element: <PrivateRoute><PlatformStatistics></PlatformStatistics></PrivateRoute> },
         ]
     }
 ])

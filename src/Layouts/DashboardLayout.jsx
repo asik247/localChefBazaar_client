@@ -31,7 +31,7 @@ const DashboardLayout = () => {
     const location = useLocation();
     const { userRole } = useRole();
     const role = userRole.role;
-
+//Todo dynamic links;
     const links =
         role === 'admin' ? adminLinks :
             role === 'chef' ? chefLinks :
