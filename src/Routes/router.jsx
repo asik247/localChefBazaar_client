@@ -25,6 +25,7 @@ import AdminProfile from "../Pages/DashBoard/AdminDashboard/AdminProfile"
 import ManageUsers from "../Pages/DashBoard/AdminDashboard/ManageUsers"
 import ManageRequest from "../Pages/DashBoard/AdminDashboard/ManageRequest"
 import PlatformStatistics from "../Pages/DashBoard/AdminDashboard/PlatformStatistics"
+import MealUpdate from "../Pages/DashBoard/ChefDashboard/MealUpdate"
 const router = createBrowserRouter([
     {
         path: '/',
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
             { path: 'myProfileChef', element: <PrivateRoute><MyProfileChef></MyProfileChef></PrivateRoute> },
             { path: 'createMeal', element: <PrivateRoute><CreateMeal></CreateMeal></PrivateRoute> },
             { path: 'myMeals', element: <PrivateRoute><MyMeals></MyMeals></PrivateRoute> },
+            { path: 'myMeals_update/:id', element: <PrivateRoute><MealUpdate></MealUpdate></PrivateRoute> },
             { path: 'orderRequest', element: <PrivateRoute><OrderRequest></OrderRequest></PrivateRoute> },
             //Todo Admin info;
             { path: 'adminProfile', element: <PrivateRoute><AdminProfile></AdminProfile></PrivateRoute> },

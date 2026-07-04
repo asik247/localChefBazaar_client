@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import useAuth from '../../../Hooks/useAuth';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Loading from '../../../Shares/Loading';
+import { Link } from 'react-router';
 
 const MyMeals = () => {
     const { user, loading } = useAuth();
@@ -62,10 +63,10 @@ const MyMeals = () => {
         }
     };
 
-    const handleUpdate = (meal) => {
-        console.log(meal);
-        // modal open korbi
-    };
+    // const handleUpdate = (mealId) => {
+    //     console.log(mealId);
+    //     // modal open korbi
+    // };
 
     return (
         <div className="min-h-screen bg-base-200/40">
@@ -176,7 +177,11 @@ const MyMeals = () => {
                                             <span className="font-semibold text-base-content/90">
                                                 Ingredients:
                                             </span>{' '}
-                                            {meal.ingredients?.join(', ')}
+                                            {
+                                                Array.isArray(meal.ingredients)
+                                                    ? meal.ingredients.join(', ')
+                                                    : meal.ingredients
+                                            }
                                         </p>
                                     </div>
                                 </div>
@@ -198,14 +203,12 @@ const MyMeals = () => {
 
                                     <div className="flex items-center gap-2">
 
-                                        <button
-                                            onClick={() =>
-                                                handleUpdate(meal)
-                                            }
+                                        <Link
+                                            to={`/dashboardLayouts/myMeals_update/${meal._id}`}
                                             className="btn btn-sm btn-error btn-outline rounded-full"
                                         >
                                             Update
-                                        </button>
+                                        </Link>
 
                                         <button
                                             onClick={() =>

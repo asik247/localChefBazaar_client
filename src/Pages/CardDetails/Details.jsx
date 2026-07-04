@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { Link, useParams } from 'react-router';
-import useInstance from '../../Hooks/useInstance';
+
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import { Heart, Star, Clock, Flame, ChefHat, ShoppingBag, MapPin, Tag } from 'lucide-react';
+import useInstanceSecqure from '../../Hooks/useInstanceSecqure';
 
 const focusStyle = {
     background: 'rgba(127,119,221,0.12)',
@@ -31,13 +32,13 @@ const inputBase = {
 
 const Details = () => {
     const { user } = useAuth();
-    const instance = useInstance();
+    const instanceSecqure = useInstanceSecqure()
     const { id } = useParams();
     // Todo cardDetailData get;
     const { data: cardDetailsData = [] } = useQuery({
         queryKey: ['cardsData', id],
         queryFn: async () => {
-            const res = await instance(`/cardsData/${id}`);
+            const res = await instanceSecqure(`/cardsData/${id}`);
             return res.data;
         }
     });
@@ -45,7 +46,7 @@ const Details = () => {
     const { refetch, data: reviewsData = [] } = useQuery({
         queryKey: ['reviews', id],
         queryFn: async () => {
-            const res = await instance(`/reviews/${id}`);
+            const res = await instanceSecqure(`/reviews/${id}`);
             return res.data;
         }
     });
@@ -69,7 +70,7 @@ const Details = () => {
             confirmButtonText: "Yes"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = await instance.post('/favorites', favoriteInfo);
+                const res = await instanceSecqure.post('/favorites', favoriteInfo);
                 if (res.data.insertedId) {
                     Swal.fire('Success!', 'Added to favorites.', 'success');
                 }
@@ -104,7 +105,7 @@ const Details = () => {
             confirmButtonText: "Yes, post it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = await instance.post('/reviews', reviewData);
+                const res = await instanceSecqure.post('/reviews', reviewData);
                 if (res.data.insertedId) {
                     Swal.fire({
                         title: "Posted!",
@@ -236,11 +237,22 @@ const Details = () => {
                                         </h3>
                                     </div>
                                     <div className="flex flex-wrap gap-1.5">
-                                        {cardDetailsData.delivery_areas?.map((area, i) => (
-                                            <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">
-                                                {area}
-                                            </span>
-                                        ))}
+                                        {
+                                            Array.isArray(cardDetailsData?.delivery_areas)
+                                                ? cardDetailsData.delivery_areas.map((area, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium"
+                                                    >
+                                                        {area}
+                                                    </span>
+                                                ))
+                                                : (
+                                                    <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">
+                                                        {cardDetailsData?.delivery_areas}
+                                                    </span>
+                                                )
+                                        }
                                     </div>
                                 </div>
 
@@ -253,8 +265,17 @@ const Details = () => {
                                         </h3>
                                     </div>
                                     <div className="flex flex-wrap gap-1.5">
-                                        {cardDetailsData.tags?.map((tag, i) => (
-                                            <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-sky-50 text-orange-600 y-600 border border-sky-200 font-medium">
+                                        {(Array.isArray(cardDetailsData?.tags)
+                                            ? cardDetailsData.tags
+                                            : String(cardDetailsData?.tags || '')
+                                                .split(',')
+                                                .map(tag => tag.trim())
+                                                .filter(Boolean)
+                                        ).map((tag, i) => (
+                                            <span
+                                                key={i}
+                                                className="text-xs px-2.5 py-1 rounded-full bg-sky-50 text-orange-600 border border-sky-200 font-medium"
+                                            >
                                                 #{tag}
                                             </span>
                                         ))}
