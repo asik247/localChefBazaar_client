@@ -159,11 +159,121 @@ const MyOrders = () => {
                                         </button>
                                     )}
                                 </div>
+                                {/* pipeline */}
+                                <div className="mt-4 border-t border-base-200 pt-4">
+                                    <h3 className="font-semibold text-sm mb-3">
+                                        Order Tracking
+                                    </h3>
+
+                                    <ul className="timeline timeline-vertical">
+
+                                        {/* Order Placed */}
+                                        <li>
+                                            <div className="timeline-start text-xs text-base-content/60">
+                                                {order.orderTime
+                                                    ? new Date(order.orderTime).toLocaleString()
+                                                    : "--"}
+                                            </div>
+
+                                            <div className="timeline-middle text-success">
+                                                ✅
+                                            </div>
+
+                                            <div className="timeline-end timeline-box">
+                                                Order Placed
+                                            </div>
+
+                                            {(order.orderStatus !== "pending") && <hr />}
+                                        </li>
+
+                                        {/* Accepted */}
+                                        {order.acceptedAt && (
+                                            <li>
+                                                <hr />
+
+                                                <div className="timeline-start text-xs text-base-content/60">
+                                                    {new Date(order.acceptedAt).toLocaleString()}
+                                                </div>
+
+                                                <div className="timeline-middle text-info">
+                                                    🍳
+                                                </div>
+
+                                                <div className="timeline-end timeline-box">
+                                                    Accepted By Chef
+                                                </div>
+
+                                                {(order.orderStatus === "delivered" ||
+                                                    order.orderStatus === "canceled") && <hr />}
+                                            </li>
+                                        )}
+                                        {order.preparingAt && (
+                                            <li>
+                                                <hr />
+
+                                                <div className="timeline-start text-xs text-base-content/60">
+                                                    {new Date(order.preparingAt).toLocaleString()}
+                                                </div>
+
+                                                <div className="timeline-middle text-warning">
+                                                    👨‍🍳
+                                                </div>
+
+                                                <div className="timeline-end timeline-box">
+                                                    Preparing Food
+                                                </div>
+
+                                                {(order.orderStatus === "delivered" ||
+                                                    order.orderStatus === "canceled") && <hr />}
+                                            </li>
+                                        )}
+
+                                        {/* Delivered */}
+                                        {order.deliveredAt && (
+                                            <li>
+                                                <hr />
+
+                                                <div className="timeline-start text-xs text-base-content/60">
+                                                    {new Date(order.deliveredAt).toLocaleString()}
+                                                </div>
+
+                                                <div className="timeline-middle text-success">
+                                                    🚚
+                                                </div>
+
+                                                <div className="timeline-end timeline-box">
+                                                    Delivered
+                                                </div>
+                                            </li>
+                                        )}
+
+                                        {/* Cancel */}
+                                        {order.canceledAt && (
+                                            <li>
+                                                <hr />
+
+                                                <div className="timeline-start text-xs text-base-content/60">
+                                                    {new Date(order.canceledAt).toLocaleString()}
+                                                </div>
+
+                                                <div className="timeline-middle text-error">
+                                                    ❌
+                                                </div>
+
+                                                <div className="timeline-end timeline-box">
+                                                    Order Canceled
+                                                </div>
+                                            </li>
+                                        )}
+                                    </ul>
+                                </div>
                             </div>
                         ))}
+
                     </div>
                 )}
             </div>
+
         </div>
     );
 };

@@ -3,9 +3,11 @@ import useAuth from '../../../Hooks/useAuth';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../Shares/Loading';
+import Swal from 'sweetalert2';
 
 const OrderRequest = () => {
     const { user } = useAuth();
+    const email = user?.email;
     const instanceSecqure = useInstanceSecqure()
     // ? get curent user user coll data;
     const { data: usersData, isLoading = {} } = useQuery({
@@ -17,17 +19,41 @@ const OrderRequest = () => {
         }
     })
     // ? get chef itmes order coll;
-    const { data: orderData = [] } = useQuery({
-        queryKey: ['orders', usersData?.chefId],
+    const { data: orderData = [], refetch } = useQuery({
+        queryKey: ['orders', usersData?.chefId, user?.email],
         enabled: !!usersData?.chefId,
         queryFn: async () => {
-            const res = await instanceSecqure.get(`/orders/chefOrder/${usersData?.chefId}`)
+            const res = await instanceSecqure.get(`/orders/chefOrder/${usersData?.chefId}`, {
+                params: {
+                    email: email
+                }
+            })
             return res.data
         }
     })
     if (isLoading) {
         return <Loading></Loading>
     }
+    //? All Action handler code here;
+    const handleOrderStatus = async (id, status) => {
+        instanceSecqure.patch(`/orders/statusUpdate/${id}`, {
+            status
+        })
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: `Order ${status} Successfully`,
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    refetch();
+                }
+            })
+
+
+    };
+
     return (
         <div className="min-h-screen bg-base-200/40">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
@@ -91,12 +117,12 @@ const OrderRequest = () => {
 
                                         <span
                                             className={`badge ${order.orderStatus === "pending"
-                                                    ? "badge-warning"
-                                                    : order.orderStatus === "accepted"
-                                                        ? "badge-info"
-                                                        : order.orderStatus === "delivered"
-                                                            ? "badge-success"
-                                                            : "badge-error"
+                                                ? "badge-warning"
+                                                : order.orderStatus === "accepted"
+                                                    ? "badge-info"
+                                                    : order.orderStatus === "delivered"
+                                                        ? "badge-success"
+                                                        : "badge-error"
                                                 }`}
                                         >
                                             {order.orderStatus}
@@ -157,7 +183,7 @@ const OrderRequest = () => {
 
                                     <div className="grid grid-cols-3 gap-2">
 
-                                        <button
+                                        <button onClick={() => handleOrderStatus(order._id, "canceled")}
                                             className="btn btn-sm btn-error"
                                             disabled={
                                                 order.orderStatus !== "pending"
@@ -166,7 +192,7 @@ const OrderRequest = () => {
                                             Cancel
                                         </button>
 
-                                        <button
+                                        <button onClick={() => handleOrderStatus(order._id, "accepted")}
                                             className="btn btn-sm btn-info"
                                             disabled={
                                                 order.orderStatus !== "pending"
@@ -174,11 +200,18 @@ const OrderRequest = () => {
                                         >
                                             Accept
                                         </button>
-
                                         <button
+                                            onClick={() => handleOrderStatus(order._id, "preparing")}
+                                            className="btn btn-sm btn-warning"
+                                            disabled={order.orderStatus !== "accepted"}
+                                        >
+                                            Preparing
+                                        </button>
+
+                                        <button onClick={() => handleOrderStatus(order._id, "delivered")}
                                             className="btn btn-sm btn-success"
                                             disabled={
-                                                order.orderStatus !== "accepted"
+                                                order.orderStatus !== "preparing"
                                             }
                                         >
                                             Deliver
