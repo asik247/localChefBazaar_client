@@ -19,6 +19,7 @@ const ManageRequest = () => {
 
     if (isLoading) {
         return <Loading />;
+        
     }
     //! handlerRequstAccepted;
     const handlerRequstAccepted = (id, email, requestType) => {
