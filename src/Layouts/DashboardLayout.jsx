@@ -14,14 +14,14 @@ const userLinks = [
 ];
 const chefLinks = [
     { to: '/dashboardLayouts', label: 'Home', icon: FaHome, end: true },
-    { to: '/dashboardLayouts/myProfileChef', label: 'My Profile', icon: CgProfile },
+     { to: '/dashboardLayouts/myProfile', label: 'My Profile', icon: CgProfile },
     { to: '/dashboardLayouts/createMeal', label: 'Create Meal', icon: FaPlusCircle },
     { to: '/dashboardLayouts/myMeals', label: 'My Meal', icon: FaUtensils },
     { to: '/dashboardLayouts/orderRequest', label: 'Order Request', icon: MdPendingActions },
 ];
 const adminLinks = [
     { to: '/dashboardLayouts', label: 'Home', icon: FaHome, end: true },
-    { to: '/dashboardLayouts/adminProfile', label: 'My Profile', icon: CgProfile },
+     { to: '/dashboardLayouts/myProfile', label: 'My Profile', icon: CgProfile },
     { to: '/dashboardLayouts/manageUsers', label: 'Manage Users', icon: FaUsersCog },
     { to: '/dashboardLayouts/manageRequest', label: 'Manage Request', icon: FaClipboardCheck },
     { to: '/dashboardLayouts/platformStatistics', label: 'Platform Statistics', icon: FaChartBar },

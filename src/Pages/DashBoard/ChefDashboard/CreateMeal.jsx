@@ -5,9 +5,20 @@ import useAuth from '../../../Hooks/useAuth';
 import axios from 'axios';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Swal from 'sweetalert2';
+import { useQuery } from '@tanstack/react-query';
 const CreateMeal = () => {
     const { user } = useAuth();
-    const instanceSecqure = useInstanceSecqure()
+      const instanceSecqure = useInstanceSecqure()
+     // ? get curent user user coll data;
+    const {data:usersData={}} = useQuery({
+        queryKey:['users',user?.email],
+        enabled: !!user?.email,
+        queryFn:async()=>{
+            const res = await instanceSecqure.get(`/users/${user?.email}`)
+            return res.data
+        }
+    })
+  
     const {
         register,
         handleSubmit,
@@ -27,7 +38,7 @@ const CreateMeal = () => {
             const mealInfo = {
                 name: data.foodName,
                 category: data.category,
-                chef_id: data.chefId,
+                chef_id: usersData?.chefId,
                 chef_name: data.chefName,
                 price: Number(data.price),
                 portion: data.portion,
@@ -63,10 +74,11 @@ const CreateMeal = () => {
             alert("Failed to create meal. Please try again.");
         }
     };
+   
     return (
         <div className="min-h-screen bg-base-200/40">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-
+               
                 {/* Header */}
                 <div className="mb-8">
                     <p className="text-xs font-semibold tracking-[0.2em] text-red-500 uppercase mb-2">
@@ -139,7 +151,7 @@ const CreateMeal = () => {
                             />
                         </div>
 
-                        {/* Chef ID ✅✅ */}
+                        {/* Chef ID */}
                         <div>
                             <label className="label">
                                 <span className="label-text font-medium">
@@ -148,14 +160,13 @@ const CreateMeal = () => {
                             </label>
 
                             <input
-                                {...register('chefId')}
-                                placeholder="CHEF-1001"
+                                value={usersData?.chefId || ''}
+                                readOnly
                                 className="input input-bordered w-full bg-base-200"
-                                required
                             />
                         </div>
 
-                        {/* Food Image✅✅ */}
+                        {/* Food image */}
                         <div>
                             <label className="label">
                                 <span className="label-text font-medium">

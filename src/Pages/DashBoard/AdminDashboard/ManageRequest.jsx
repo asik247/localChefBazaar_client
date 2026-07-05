@@ -2,12 +2,13 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Loading from '../../../Shares/Loading';
-import { em } from 'motion/react-client';
+import Swal from 'sweetalert2';
+
 const ManageRequest = () => {
     const instanceSecqure = useInstanceSecqure();
     const {
         data: requestData = [],
-        isLoading,
+        isLoading, refetch
     } = useQuery({
         queryKey: ['roleRequest'],
         queryFn: async () => {
@@ -20,17 +21,38 @@ const ManageRequest = () => {
         return <Loading />;
     }
     //! handlerRequstAccepted;
-    const handlerRequstAccepted = (email, requestType) => {
-        instanceSecqure.patch(`/users/requestUpdate/${email}`, {
-            requestType: requestType
+    const handlerRequstAccepted = (id, email, requestType) => {
+        instanceSecqure.patch(`/users/requestUpdate/${id}`, {
+            email, requestType: requestType
         })
             .then(res => {
-                console.log('Accepted info', res.data);
+                if (res.data.requestResult?.modifiedCount > 0) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title:`${requestType} request has been approved successfully.`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    refetch()
+                }
             })
     }
     //!handlerRejected;
     const handlerRejected = (id) => {
-        console.log(id);
+        instanceSecqure.patch(`/roleRequest/${id}`)
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "The request has been rejected successfully.",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    refetch()
+                }
+            })
     }
     return (
         <div className="min-h-screen bg-base-200/40">
@@ -112,8 +134,8 @@ const ManageRequest = () => {
 
                                                 <span
                                                     className={`badge ${request.requestType === 'chef'
-                                                            ? 'badge-primary'
-                                                            : 'badge-secondary'
+                                                        ? 'badge-primary'
+                                                        : 'badge-secondary'
                                                         }`}
                                                 >
                                                     {request.requestType}
@@ -127,10 +149,10 @@ const ManageRequest = () => {
 
                                                 <span
                                                     className={`badge ${request.requestStatus === 'approved'
-                                                            ? 'badge-success'
-                                                            : request.requestStatus === 'rejected'
-                                                                ? 'badge-error'
-                                                                : 'badge-warning'
+                                                        ? 'badge-success'
+                                                        : request.requestStatus === 'rejected'
+                                                            ? 'badge-error'
+                                                            : 'badge-warning'
                                                         }`}
                                                 >
                                                     {request.requestStatus}
@@ -151,7 +173,7 @@ const ManageRequest = () => {
                                         </div>
                                         {/* 2 Action Btn here in mobile view */}
                                         <div className="grid grid-cols-2 gap-3 pt-3">
-                                            <button
+                                            <button onClick={() => handlerRequstAccepted(request._id, request.userEmail, request.requestType)}
                                                 disabled={
                                                     request.requestStatus !==
                                                     'pending'
@@ -161,7 +183,7 @@ const ManageRequest = () => {
                                                 Accept
                                             </button>
 
-                                            <button
+                                            <button onClick={() => handlerRejected(request._id)}
                                                 disabled={
                                                     request.requestStatus !==
                                                     'pending'
@@ -214,9 +236,9 @@ const ManageRequest = () => {
                                                     <td>
                                                         <span
                                                             className={`badge ${request.requestType ===
-                                                                    'chef'
-                                                                    ? 'badge-primary'
-                                                                    : 'badge-secondary'
+                                                                'chef'
+                                                                ? 'badge-primary'
+                                                                : 'badge-secondary'
                                                                 }`}
                                                         >
                                                             {
@@ -228,12 +250,12 @@ const ManageRequest = () => {
                                                     <td>
                                                         <span
                                                             className={`badge ${request.requestStatus ===
-                                                                    'approved'
-                                                                    ? 'badge-success'
-                                                                    : request.requestStatus ===
-                                                                        'rejected'
-                                                                        ? 'badge-error'
-                                                                        : 'badge-warning'
+                                                                'approved'
+                                                                ? 'badge-success'
+                                                                : request.requestStatus ===
+                                                                    'rejected'
+                                                                    ? 'badge-error'
+                                                                    : 'badge-warning'
                                                                 }`}
                                                         >
                                                             {
@@ -251,7 +273,7 @@ const ManageRequest = () => {
                                                     <td>
                                                         {/* 2 Action Btn Here */}
                                                         <div className="flex justify-center gap-2">
-                                                            <button onClick={() => handlerRequstAccepted(request.userEmail, request.requestType)}
+                                                            <button onClick={() => handlerRequstAccepted(request._id, request.userEmail, request.requestType)}
                                                                 disabled={
                                                                     request.requestStatus !==
                                                                     'pending'

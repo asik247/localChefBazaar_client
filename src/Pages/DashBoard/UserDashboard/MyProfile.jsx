@@ -4,7 +4,6 @@ import useAuth from '../../../Hooks/useAuth';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Loading from '../../../Shares/Loading';
 import Swal from 'sweetalert2';
-
 const MyProfile = () => {
     const { user, loading } = useAuth();
     const instanceSecqure = useInstanceSecqure();
@@ -119,6 +118,17 @@ const MyProfile = () => {
                                     {userData?.role}
                                 </p>
                             </div>
+                            {/* Chef ID */}
+                            {userData?.role === 'chef' && (
+                                <div className="rounded-2xl border border-base-200 bg-base-200/40 p-4 hover:bg-red-50 hover:border-red-100 transition-all duration-200">
+                                    <h3 className="text-xs font-semibold tracking-widest text-base-content/50 uppercase mb-1">
+                                        Chef ID
+                                    </h3>
+                                    <p className="text-base-content font-medium">
+                                        {userData?.chefId}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         <div className="divider my-6"></div>
