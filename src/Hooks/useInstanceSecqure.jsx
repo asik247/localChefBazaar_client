@@ -39,7 +39,7 @@ const useInstanceSecqure = () => {
             instanceSecqure.interceptors.request.eject(requestInterceptor);
             instanceSecqure.interceptors.response.eject(responseInterceptor);
         }
-    }, [user])
+    }, [user,logOutUsers])
     return instanceSecqure
 };
 

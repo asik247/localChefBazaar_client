@@ -392,9 +392,7 @@ const CreateMeal = () => {
                                     ? ' Fraud Chef Cannot Create Meal'
                                     : 'Create Meal'}
                             </button>
-                            {
-                                console.log(usersData)
-                            }
+                           
                         </div>
 
                     </form>
