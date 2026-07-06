@@ -18,18 +18,18 @@ import PaymenntCancled from "../Pages/DashBoard/Payments/PaymenntCancled"
 import MyReviews from "../Pages/DashBoard/UserDashboard/MyReviews"
 import FavoritesMeals from "../Pages/DashBoard/UserDashboard/FavoritesMeals"
 import CreateMeal from "../Pages/DashBoard/ChefDashboard/CreateMeal"
-
 import MyMeals from "../Pages/DashBoard/ChefDashboard/MyMeals"
 import OrderRequest from "../Pages/DashBoard/ChefDashboard/OrderRequest"
-
 import ManageUsers from "../Pages/DashBoard/AdminDashboard/ManageUsers"
 import ManageRequest from "../Pages/DashBoard/AdminDashboard/ManageRequest"
 import PlatformStatistics from "../Pages/DashBoard/AdminDashboard/PlatformStatistics"
 import MealUpdate from "../Pages/DashBoard/ChefDashboard/MealUpdate"
+import Errors from "../Pages/Errors/Errors"
 const router = createBrowserRouter([
     {
         path: '/',
         Component: RootLayout,
+        errorElement:<Errors></Errors>,
         children: [
             { index: true, Component: HomePage },
             { path: 'about', element: <PrivateRoute><AboutPage></AboutPage></PrivateRoute> },

@@ -52,10 +52,10 @@ const PlatformStatistics = () => {
         },
     ];
 
-const COLORS = [
-  '#2563eb', 
-  '#059669', 
-];
+    const COLORS = [
+        '#2563eb',
+        '#059669',
+    ];
     return (
         <div className="min-h-screen bg-base-200/40">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10">
@@ -78,7 +78,7 @@ const COLORS = [
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
 
-                    <div className="stat bg-base-100 rounded-3xl shadow">
+                    <div className="stat bg-base-100 rounded-3xl shadow hover:bg-red-50 hover:border-red-100 transition-all duration-200">
                         <div className="stat-title">
                             Total Users
                         </div>
@@ -88,7 +88,7 @@ const COLORS = [
                         </div>
                     </div>
 
-                    <div className="stat bg-base-100 rounded-3xl shadow">
+                    <div className="stat bg-base-100 rounded-3xl shadow hover:bg-red-50 hover:border-red-100 transition-all duration-200">
                         <div className="stat-title">
                             Total Payment
                         </div>
@@ -98,7 +98,7 @@ const COLORS = [
                         </div>
                     </div>
 
-                    <div className="stat bg-base-100 rounded-3xl shadow">
+                    <div className="stat bg-base-100 rounded-3xl shadow hover:bg-red-50 hover:border-red-100 transition-all duration-200">
                         <div className="stat-title">
                             Pending Orders
                         </div>
@@ -108,7 +108,7 @@ const COLORS = [
                         </div>
                     </div>
 
-                    <div className="stat bg-base-100 rounded-3xl shadow">
+                    <div className="stat bg-base-100 rounded-3xl shadow hover:bg-red-50 hover:border-red-100 transition-all duration-200">
                         <div className="stat-title">
                             Delivered Orders
                         </div>
@@ -168,7 +168,7 @@ const COLORS = [
                                             key={index}
                                             fill={
                                                 COLORS[
-                                                    index % COLORS.length
+                                                index % COLORS.length
                                                 ]
                                             }
                                         />

@@ -16,7 +16,7 @@ const Meals = () => {
             {/* <h1>All Meals here{meals.length}</h1> */}
             <div className="text-center my-10">
                 <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight italic text-base-content">
-                   All Freshly Made <span className="text-emerald-500">for You</span>
+                    All Freshly Made <span className="text-emerald-500">for You</span>
                 </h1>
                 <p className="mt-3 text-sm text-base-content/60">
                     Showing{' '}
