@@ -8,17 +8,17 @@ import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
 const CreateMeal = () => {
     const { user } = useAuth();
-      const instanceSecqure = useInstanceSecqure()
-     // ? get curent user user coll data;
-    const {data:usersData={}} = useQuery({
-        queryKey:['users',user?.email],
+    const instanceSecqure = useInstanceSecqure()
+    // ? get curent user user coll data;
+    const { data: usersData = {} } = useQuery({
+        queryKey: ['users', user?.email],
         enabled: !!user?.email,
-        queryFn:async()=>{
+        queryFn: async () => {
             const res = await instanceSecqure.get(`/users/${user?.email}`)
             return res.data
         }
     })
-  
+
     const {
         register,
         handleSubmit,
@@ -74,11 +74,11 @@ const CreateMeal = () => {
             alert("Failed to create meal. Please try again.");
         }
     };
-   
+
     return (
         <div className="min-h-screen bg-base-200/40">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-               
+
                 {/* Header */}
                 <div className="mb-8">
                     <p className="text-xs font-semibold tracking-[0.2em] text-red-500 uppercase mb-2">
@@ -384,11 +384,17 @@ const CreateMeal = () => {
 
                         <div className="md:col-span-2 mt-3">
                             <button
+                                disabled={usersData?.status === 'fraud'}
                                 type="submit"
                                 className="btn btn-error w-full rounded-xl"
                             >
-                                Create Meal
+                                {usersData?.status === 'fraud'
+                                    ? ' Fraud Chef Cannot Create Meal'
+                                    : 'Create Meal'}
                             </button>
+                            {
+                                console.log(usersData)
+                            }
                         </div>
 
                     </form>

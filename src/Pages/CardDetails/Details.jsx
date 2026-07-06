@@ -50,6 +50,16 @@ const Details = () => {
             return res.data;
         }
     });
+    // ? get curent user user coll data;
+    const { data: usersData = {} } = useQuery({
+        queryKey: ['users', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await instanceSecqure.get(`/users/${user?.email}`)
+            return res.data
+        }
+    })
+
     //? handler favrites;
     const handleFavorite = async () => {
         const favoriteInfo = {
@@ -284,13 +294,26 @@ const Details = () => {
                             </div>
 
                             {/* ORDER BUTTON */}
-                            <Link
-                                to={`/orders/${cardDetailsData._id}`}
-                                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-white text-sm tracking-wide bg-gradient-to-r from-orange-400 to-red-500"
-                            >
-                                <ShoppingBag size={18} />
-                                Order Now
-                            </Link>
+                            {
+                                usersData?.status === 'fraud' ? (
+                                    <button
+                                        disabled
+                                        className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-sm tracking-wide btn btn-error"
+                                    >
+                                        <ShoppingBag size={18} />
+                                        Fraud Users Can't Order
+                                    </button>
+                                ) : (
+                                    <Link
+                                        to={`/orders/${cardDetailsData._id}`}
+                                        className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-white text-sm tracking-wide bg-gradient-to-r from-orange-400 to-red-500"
+                                    >
+                                        <ShoppingBag size={18} />
+                                        Order Now
+                                    </Link>
+                                )
+                            }
+
                         </div>
                     </div>
                 </div>

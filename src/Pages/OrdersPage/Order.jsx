@@ -18,62 +18,62 @@ const Order = () => {
         }
     })
     //! handler order confarm;
-   const handleOrder = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const quantity = parseInt(form.quantity.value);
-    const userAddress = form.address.value;
-    const totalPrice = confarmOrderData.price * quantity;
-    const orderInfo = {
-        foodId: confarmOrderData._id,
-        mealName: confarmOrderData.name,
-        price: confarmOrderData.price,
-        quantity,
-        chefId: confarmOrderData.chef_id,
-        chefName: confarmOrderData.chef_name,
-        paymentStatus: "pending",
-        buyerName: user?.displayName,
-        buyerEmail: user?.email,
-        userAddress,
-        orderStatus: "pending",
-        orderTime: new Date().toISOString()
-    };
-    try {
-        const result = await Swal.fire({
-            title: `Your total price is ৳${totalPrice}`,
-            text: "Do you want to confirm the order?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes"
-        });
+    const handleOrder = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const quantity = parseInt(form.quantity.value);
+        const userAddress = form.address.value;
+        const totalPrice = confarmOrderData.price * quantity;
+        const orderInfo = {
+            foodId: confarmOrderData._id,
+            mealName: confarmOrderData.name,
+            price: confarmOrderData.price,
+            quantity,
+            chefId: confarmOrderData.chef_id,
+            chefName: confarmOrderData.chef_name,
+            paymentStatus: "pending",
+            buyerName: user?.displayName,
+            buyerEmail: user?.email,
+            userAddress,
+            orderStatus: "pending",
+            orderTime: new Date().toISOString()
+        };
+        try {
+            const result = await Swal.fire({
+                title: `Your total price is ৳${totalPrice}`,
+                text: "Do you want to confirm the order?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes"
+            });
 
-        if (result.isConfirmed) {
-            const res = await instance.post("/orders", orderInfo);
+            if (result.isConfirmed) {
+                const res = await instance.post("/orders", orderInfo);
 
-            if (res.data.insertedId) {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Order placed successfully!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Order placed successfully!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
 
-                form.reset();
+                    form.reset();
+                }
+                navegate('/dashboardLayouts/myOrders')
             }
-            navegate('/dashboardLayouts/myOrders')
-        }
 
-    } catch (error) {
-        console.log(error);
-        Swal.fire({
-            icon: "error",
-            title: "Something went wrong!"
-        });
-    }
-};
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                icon: "error",
+                title: "Something went wrong!"
+            });
+        }
+    };
     return (
         <div className="flex justify-center items-center py-8">
             <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-8">
@@ -243,6 +243,7 @@ const Order = () => {
                     </div>
                     {/* confram order btn here */}
                     <button
+                        disabled={confarmOrderData?.status === 'fraud'}
                         type="submit"
                         className="w-full py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-orange-400 to-red-500"
                     >
