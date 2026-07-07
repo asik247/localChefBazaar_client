@@ -4,6 +4,7 @@ import { FaChartBar, FaClipboardCheck, FaClipboardList, FaHandHoldingHeart, FaHo
 import { MdPendingActions, MdReviews } from "react-icons/md";
 import { Link, Outlet, useLocation } from 'react-router';
 import useRole from '../Hooks/useRole';
+import { Helmet } from 'react-helmet-async';
 
 const userLinks = [
     { to: '/dashboardLayouts', label: 'Home', icon: FaHome, end: true },
@@ -47,6 +48,9 @@ const DashboardLayout = () => {
 
     return (
         <div className="drawer lg:drawer-open">
+            <Helmet>
+                 <title>DashBoardLayout | LocalChefBazaar</title>
+            </Helmet>
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
             <div className="drawer-content flex flex-col bg-base-200/40 min-h-screen">

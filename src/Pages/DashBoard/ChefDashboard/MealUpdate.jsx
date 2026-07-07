@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import useAuth from '../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 const MealUpdate = () => {
     const { id } = useParams();
     const instanceSecqure = useInstanceSecqure()
@@ -65,6 +66,9 @@ const MealUpdate = () => {
 
     return (
         <div className="min-h-screen bg-base-200/40">
+            <Helmet>
+                <title>{`ChefDashBoard - MealUpdate - ${mealData?.name} | LocalChefBazaar`}</title>
+            </Helmet>
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
                 {/* Header */}

@@ -6,6 +6,7 @@ import axios from 'axios';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 const CreateMeal = () => {
     const { user } = useAuth();
     const instanceSecqure = useInstanceSecqure()
@@ -77,6 +78,9 @@ const CreateMeal = () => {
 
     return (
         <div className="min-h-screen bg-base-200/40">
+             <Helmet>
+                <title>ChefDashBoard - CreateMeal | LocalChefBazaar</title>
+            </Helmet>
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
                 {/* Header */}

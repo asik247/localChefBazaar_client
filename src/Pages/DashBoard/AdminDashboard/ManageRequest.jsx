@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Loading from '../../../Shares/Loading';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const ManageRequest = () => {
     const instanceSecqure = useInstanceSecqure();
@@ -57,6 +58,9 @@ const ManageRequest = () => {
     }
     return (
         <div className="min-h-screen bg-base-200/40">
+            <Helmet>
+                <title>AdminDashBoard - ManageUserRequest | LocalChefBazaar</title>
+            </Helmet>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
 
                 {/* Header */}

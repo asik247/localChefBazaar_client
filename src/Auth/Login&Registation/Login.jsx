@@ -3,13 +3,13 @@ import loginImg from '../../assets/login2.jpg'
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
-import { useLocation, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialSignIn from '../../Shares/SocialSignIn';
+import { Helmet } from 'react-helmet-async';
 const Login = () => {
     const { logInUsers, user, forgotPassword } = useContext(AuthContext);
     // console.log('current user', user);
     const location = useLocation();
-    // console.log(location);
     const navegate = useNavigate();
     // ? react hook form;
     const { register, watch, handleSubmit, setError, formState: { errors } } = useForm()
@@ -74,6 +74,9 @@ const Login = () => {
     }
     return (
         <div className="min-h-screen flex items-center justify-center">
+            <Helmet>
+                <title>LogIn | LocalChefBazaar</title>
+            </Helmet>
             <div className="flex flex-col-reverse md:flex-row  rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
                 {/* Left side - Image */}
                 <div className="flex-1 relative min-h-[220px] md:min-h-0">
@@ -179,10 +182,12 @@ const Login = () => {
                             <SocialSignIn></SocialSignIn>
                         </fieldset>
                     </form>
+                    {/* send location ar state */}
                     <p className="text-center text-sm text-gray-500 mt-4">
                         New to our website?{' '}
-                        <a href="/auth/registation" className="text-indigo-600 font-medium hover:underline">Registation</a>
+                        <Link to={'/auth/registation'} state={location.state} className="text-indigo-600 font-medium hover:underline">Registation</Link>
                     </p>
+                   
                     {/* LogIn Faield message showing */}
                     <div>
                         {

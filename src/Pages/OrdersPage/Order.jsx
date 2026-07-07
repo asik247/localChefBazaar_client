@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import useInstance from '../../Hooks/useInstance';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 const Order = () => {
     const { user } = useAuth();
     const navegate = useNavigate()
@@ -76,6 +77,13 @@ const Order = () => {
     };
     return (
         <div className="flex justify-center items-center py-8">
+            <Helmet>
+                <title>
+                    {confarmOrderData?.name
+                        ? `LocalChefBazaar - ${confarmOrderData.name} - Order`
+                        : "LocalChefBazaar - Order"}
+                </title>
+            </Helmet>
             <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-8">
                 {/* Title */}
                 <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-6 tracking-tight italic">

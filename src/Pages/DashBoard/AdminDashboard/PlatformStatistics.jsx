@@ -15,6 +15,7 @@ import {
     Cell,
     Legend,
 } from 'recharts';
+import { Helmet } from 'react-helmet-async';
 
 const PlatformStatistics = () => {
     const instanceSecqure = useInstanceSecqure();
@@ -58,6 +59,9 @@ const PlatformStatistics = () => {
     ];
     return (
         <div className="min-h-screen bg-base-200/40">
+            <Helmet>
+                <title>AdminDashBoard - PlatformStatistics | LocalChefBazaar</title>
+            </Helmet>
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-10">
 
                 {/* Header */}

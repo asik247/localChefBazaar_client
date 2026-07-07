@@ -4,6 +4,7 @@ import useAuth from '../../../Hooks/useAuth';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Loading from '../../../Shares/Loading';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const FavoritesMeals = () => {
     const { user, loading } = useAuth();
@@ -84,6 +85,9 @@ const FavoritesMeals = () => {
 
     return (
         <div className="min-h-screen bg-base-200/40">
+            <Helmet>
+                <title>UserDashBoard - MyFavoritesMeals | LocalChefBazaar</title>
+            </Helmet>
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
                 {/* Header */}

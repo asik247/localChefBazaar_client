@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import useInstance from '../../Hooks/useInstance';
 import { Link } from 'react-router';
+import { Helmet } from 'react-helmet-async';
 const Meals = () => {
     const instance = useInstance()
     const { data: meals = [] } = useQuery({
@@ -13,6 +14,9 @@ const Meals = () => {
     })
     return (
         <div>
+            <Helmet>
+                 <title>Meals | LocalChefBazaar</title>
+            </Helmet>
             {/* <h1>All Meals here{meals.length}</h1> */}
             <div className="text-center my-10">
                 <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight italic text-base-content">

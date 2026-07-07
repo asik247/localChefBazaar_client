@@ -3,6 +3,7 @@ import useAuth from '../../../Hooks/useAuth';
 import Loading from '../../../Shares/Loading';
 import { useQuery } from '@tanstack/react-query';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
+import { Helmet } from 'react-helmet-async';
 
 const MyOrders = () => {
     //? current user get;
@@ -51,6 +52,9 @@ const MyOrders = () => {
 
     return (
         <div className="min-h-screen bg-base-200/40">
+             <Helmet>
+                <title>UserDashBoard - MyOrders | LocalChefBazaar</title>
+            </Helmet>
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
                 {/* Header */}

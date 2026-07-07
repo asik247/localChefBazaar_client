@@ -6,6 +6,7 @@ import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import { Heart, Star, Clock, Flame, ChefHat, ShoppingBag, MapPin, Tag } from 'lucide-react';
 import useInstanceSecqure from '../../Hooks/useInstanceSecqure';
+import { Helmet } from 'react-helmet-async';
 
 const focusStyle = {
     background: 'rgba(127,119,221,0.12)',
@@ -134,6 +135,13 @@ const Details = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/30 to-orange-50/20">
+            <Helmet>
+                <title>
+                    {cardDetailsData?.name
+                        ? `LocalChefBazaar - ${cardDetailsData.name} - Details`
+                        : "LocalChefBazaar - Meal Details"}
+                </title>
+            </Helmet>
             <div className="max-w-5xl mx-auto px-4 py-12">
 
                 {/* ── DETAILS CARD ── */}

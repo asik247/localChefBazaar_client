@@ -5,3 +5,6 @@
 # env in vite react usign secquire firebase keys;
 # imagebb , axios , sweetalert2
 # react spiner using loading implement
+# rechart
+# react helmet asynch
+# 

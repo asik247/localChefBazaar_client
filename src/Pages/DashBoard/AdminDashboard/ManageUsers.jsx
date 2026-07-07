@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useInstanceSecqure from '../../../Hooks/useInstanceSecqure';
 import Loading from '../../../Shares/Loading';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const ManageUsers = () => {
     const instanceSecqure = useInstanceSecqure();
@@ -52,6 +53,9 @@ const ManageUsers = () => {
 
     return (
         <div className="min-h-screen bg-base-200/40">
+            <Helmet>
+                <title>AdminDashBoard - ManageUsers | LocalChefBazaar</title>
+            </Helmet>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
 
                 {/* Header */}
@@ -133,10 +137,10 @@ const ManageUsers = () => {
 
                                                 <span
                                                     className={`badge ${user.role === 'admin'
-                                                            ? 'badge-error'
-                                                            : user.role === 'chef'
-                                                                ? 'badge-primary'
-                                                                : 'badge-secondary'
+                                                        ? 'badge-error'
+                                                        : user.role === 'chef'
+                                                            ? 'badge-primary'
+                                                            : 'badge-secondary'
                                                         }`}
                                                 >
                                                     {user.role}
@@ -150,8 +154,8 @@ const ManageUsers = () => {
 
                                                 <span
                                                     className={`badge ${user.status === 'fraud'
-                                                            ? 'badge-error'
-                                                            : 'badge-success'
+                                                        ? 'badge-error'
+                                                        : 'badge-success'
                                                         }`}
                                                 >
                                                     {user.status || 'active'}
@@ -213,12 +217,12 @@ const ManageUsers = () => {
                                                 <td>
                                                     <span
                                                         className={`badge ${user.role ===
-                                                                'admin'
-                                                                ? 'badge-error'
-                                                                : user.role ===
-                                                                    'chef'
-                                                                    ? 'badge-primary'
-                                                                    : 'badge-secondary'
+                                                            'admin'
+                                                            ? 'badge-error'
+                                                            : user.role ===
+                                                                'chef'
+                                                                ? 'badge-primary'
+                                                                : 'badge-secondary'
                                                             }`}
                                                     >
                                                         {user.role}
@@ -228,9 +232,9 @@ const ManageUsers = () => {
                                                 <td>
                                                     <span
                                                         className={`badge ${user.status ===
-                                                                'fraud'
-                                                                ? 'badge-error'
-                                                                : 'badge-success'
+                                                            'fraud'
+                                                            ? 'badge-error'
+                                                            : 'badge-success'
                                                             }`}
                                                     >
                                                         {user.status ||

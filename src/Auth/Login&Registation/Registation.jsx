@@ -6,11 +6,16 @@ import axios from 'axios';
 import useInstance from '../../Hooks/useInstance';
 import Swal from 'sweetalert2';
 import { type } from 'firebase/firestore/pipelines';
+import { Helmet } from 'react-helmet-async';
+import { Link, useLocation, useNavigate } from 'react-router';
 const Registration = () => {
     const instance = useInstance()
     //? register info get authprovider;
     const { createUser, user, verifyEmail, updateUser } = useContext(AuthContext);
     // console.log('currentUser', user);
+    const location = useLocation();
+
+    const navegate = useNavigate();
     // ? react hook form;
     const { register, handleSubmit, setError, formState: { errors } } = useForm();
     //! my handler with register;
@@ -20,6 +25,7 @@ const Registration = () => {
         //Todo create user funk;
         createUser(data.email, data.password)
             .then(res => {
+                navegate(location.state || '/')
                 // ? email verify;
                 verifyEmail()
                 //! Register success swal;
@@ -81,6 +87,9 @@ const Registration = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center">
+            <Helmet>
+                <title>Registation | LocalChefBazaar</title>
+            </Helmet>
             <div className="flex flex-col-reverse md:flex-row rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
                 {/* Left side - Image */}
                 <div className="flex-1 relative min-h-[220px] md:min-h-0">
@@ -275,9 +284,10 @@ const Registration = () => {
                             </button>
                         </fieldset>
                     </form>
+                    {/* location state sent login page✅ */}
                     <p className="text-center text-sm text-gray-500 mt-4">
                         Already have an account?{' '}
-                        <a href="/auth" className="text-indigo-600 font-medium hover:underline">Sign in</a>
+                        <Link to={'/auth'} state={location.state} className="text-indigo-600 font-medium hover:underline">LogIn</Link>
                     </p>
                     {/* Register Faield error message showing ui */}
                     <div>
