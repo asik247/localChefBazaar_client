@@ -1,12 +1,18 @@
+
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 import useInstanceSecqure from '../../Hooks/useInstanceSecqure';
 
 const Meals = () => {
     const instanceSecqure = useInstanceSecqure();
+
     const [searchText, setSearchText] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const itemsPerPage = 10;
+
     // All Meals
     const { data: meals = [], isLoading } = useQuery({
         queryKey: ['meals'],
@@ -15,6 +21,7 @@ const Meals = () => {
             return res.data;
         }
     });
+
     // Search Meals
     const { data: searchResults = [] } = useQuery({
         queryKey: ['searchMeals', searchText],
@@ -28,6 +35,23 @@ const Meals = () => {
     });
 
     const displayedMeals = searchText ? searchResults : meals;
+
+    // Search করলে প্রথম page এ যাবে
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchText]);
+
+    // Pagination Logic
+    const totalPages = Math.ceil(
+        displayedMeals.length / itemsPerPage
+    );
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+
+    const currentMeals = displayedMeals.slice(
+        startIndex,
+        startIndex + itemsPerPage
+    );
 
     if (isLoading) {
         return (
@@ -101,7 +125,7 @@ const Meals = () => {
 
             <div className="mt-20">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {displayedMeals.map((meal) => (
+                    {currentMeals.map((meal) => (
                         <div
                             key={meal._id}
                             className="bg-white rounded-2xl border border-gray-100 overflow-hidden w-full mx-auto hover:shadow-md transition-shadow"
@@ -143,6 +167,46 @@ const Meals = () => {
                         </div>
                     ))}
                 </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className="flex justify-center items-center gap-2 mt-16 mb-10 flex-wrap">
+                        <button
+                            className="btn btn-outline btn-sm"
+                            disabled={currentPage === 1}
+                            onClick={() =>
+                                setCurrentPage((prev) => prev - 1)
+                            }
+                        >
+                            Previous
+                        </button>
+
+                        {[...Array(totalPages).keys()].map((page) => (
+                            <button
+                                key={page}
+                                onClick={() =>
+                                    setCurrentPage(page + 1)
+                                }
+                                className={`btn btn-sm ${currentPage === page + 1
+                                        ? 'btn-primary'
+                                        : 'btn-outline'
+                                    }`}
+                            >
+                                {page + 1}
+                            </button>
+                        ))}
+
+                        <button
+                            className="btn btn-outline btn-sm"
+                            disabled={currentPage === totalPages}
+                            onClick={() =>
+                                setCurrentPage((prev) => prev + 1)
+                            }
+                        >
+                            Next
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
