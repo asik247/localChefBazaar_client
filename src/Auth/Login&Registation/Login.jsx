@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import loginImg from '../../assets/login2.jpg'
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../AuthProvider/AuthProvider';
@@ -6,11 +6,13 @@ import Swal from 'sweetalert2';
 import { Link, useLocation, useNavigate } from 'react-router';
 import SocialSignIn from '../../Shares/SocialSignIn';
 import { Helmet } from 'react-helmet-async';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
     const { logInUsers, user, forgotPassword } = useContext(AuthContext);
     // console.log('current user', user);
     const location = useLocation();
     const navegate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
     // ? react hook form;
     const { register, watch, handleSubmit, setError, formState: { errors } } = useForm()
     //! handler login;
@@ -138,7 +140,7 @@ const Login = () => {
                             {/* Password */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {/* Password */}
-                                <div>
+                                <div className='relative'>
                                     <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                                         Password
                                     </label>
@@ -149,7 +151,7 @@ const Login = () => {
                                                 message: 'Must have 1 uppercase & 1 special character (!@#$%^&*)'
                                             }
                                         })}
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         placeholder="Password"
                                         className="w-full px-4 py-2.5 rounded-lg text-sm text-gray-800 outline-none transition-all duration-200"
                                         style={{ background: 'rgba(127,119,221,0.06)', border: '0.5px solid rgba(127,119,221,0.3)' }}
@@ -164,6 +166,14 @@ const Login = () => {
                                             e.target.style.boxShadow = 'none';
                                         }}
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 top-10 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                    >
+                                        {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                                    </button>
+
                                     {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
                                 </div>
                             </div>
@@ -187,7 +197,7 @@ const Login = () => {
                         New to our website?{' '}
                         <Link to={'/auth/registation'} state={location.state} className="text-indigo-600 font-medium hover:underline">Registation</Link>
                     </p>
-                   
+
                     {/* LogIn Faield message showing */}
                     <div>
                         {

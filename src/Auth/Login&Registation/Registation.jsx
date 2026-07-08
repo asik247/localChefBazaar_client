@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import registerImg from '../../assets/login1.jpg';
 import { AuthContext } from '../AuthProvider/AuthProvider';
@@ -8,14 +8,16 @@ import Swal from 'sweetalert2';
 import { type } from 'firebase/firestore/pipelines';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate } from 'react-router';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Registration = () => {
     const instance = useInstance()
     //? register info get authprovider;
     const { createUser, user, verifyEmail, updateUser } = useContext(AuthContext);
     // console.log('currentUser', user);
     const location = useLocation();
-
     const navegate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     // ? react hook form;
     const { register, handleSubmit, setError, formState: { errors } } = useForm();
     //! my handler with register;
@@ -214,9 +216,9 @@ const Registration = () => {
                                 )}
                             </div>
                             {/* Password + Confirm - side by side */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ">
                                 {/* Password */}
-                                <div>
+                                <div className='relative'>
                                     <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                                         Password
                                     </label>
@@ -227,7 +229,7 @@ const Registration = () => {
                                                 message: 'Must have 1 uppercase & 1 special character (!@#$%^&*)'
                                             }
                                         })}
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         placeholder="Password"
                                         className="w-full px-4 py-2.5 rounded-lg text-sm text-gray-800 outline-none transition-all duration-200"
                                         style={{ background: 'rgba(127,119,221,0.06)', border: '0.5px solid rgba(127,119,221,0.3)' }}
@@ -242,10 +244,18 @@ const Registration = () => {
                                             e.target.style.boxShadow = 'none';
                                         }}
                                     />
+                                    {/* eys showing btn here */}
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 top-10 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                    >
+                                        {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                                    </button>
                                     {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
                                 </div>
                                 {/* Confirm Password */}
-                                <div>
+                                <div className='relative'>
                                     <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                                         Confirm Password
                                     </label>
@@ -256,7 +266,7 @@ const Registration = () => {
                                                 message: 'Must have 1 uppercase & 1 special character (!@#$%^&*)'
                                             }
                                         })}
-                                        type="password"
+                                        type={showConfirmPassword ? "text" : "password"}
                                         placeholder="Confirm password"
                                         className="w-full px-4 py-2.5 rounded-lg text-sm text-gray-800 outline-none transition-all duration-200"
                                         style={{ background: 'rgba(127,119,221,0.06)', border: '0.5px solid rgba(127,119,221,0.3)' }}
@@ -271,6 +281,14 @@ const Registration = () => {
                                             e.target.style.boxShadow = 'none';
                                         }}
                                     />
+                                    {/* eye showing btn here */}
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        className="absolute right-3 top-10 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                    >
+                                        {showConfirmPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                                    </button>
                                     {errors.confirmPassword && <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>}
                                 </div>
                             </div>
