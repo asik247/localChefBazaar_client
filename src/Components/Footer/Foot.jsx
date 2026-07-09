@@ -10,11 +10,17 @@ const Foot = () => {
 
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center shrink-0 shadow-md shadow-red-500/30">
-                <span className="text-white font-bold text-sm">🍽️</span>
+            <div className="group flex items-center gap-2.5 mb-3 w-fit">
+              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center shrink-0 shadow-md shadow-red-500/30">
+                <span className="text-white font-bold text-sm tracking-tight select-none">
+                  LCB
+                </span>
+                {/* Hover tooltip with full name */}
+                <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap px-3 py-1.5 rounded-lg bg-neutral text-neutral-content text-xs font-semibold opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 shadow-lg">
+                  LocalChefBazaar
+                </span>
               </div>
-              <span className="font-bold text-base-content text-lg">
+              <span className="font-bold text-base-content text-lg tracking-tight">
                 LocalChef<span className="text-red-500">Bazaar</span>
               </span>
             </div>
@@ -37,15 +43,21 @@ const Foot = () => {
             </nav>
           </div>
 
-          {/* Quick links */}
+          {/* Contact info */}
           <div>
             <h3 className="text-xs font-semibold tracking-widest text-base-content/50 uppercase mb-4">
-              Your account
+              Get in touch
             </h3>
             <nav className="flex flex-col gap-2.5">
-              <Link to="/dashboardLayouts/myOrders" className="text-sm text-base-content/70 hover:text-red-600 transition-colors w-fit">My Orders</Link>
-              <Link to="/dashboardLayouts/myReviews" className="text-sm text-base-content/70 hover:text-red-600 transition-colors w-fit">My Reviews</Link>
-              <Link to="/dashboardLayouts/favorites" className="text-sm text-base-content/70 hover:text-red-600 transition-colors w-fit">My Favorites</Link>
+              <a href="mailto:support@localchefbazaar.com" className="text-sm text-base-content/70 hover:text-red-600 transition-colors w-fit">
+                support@localchefbazaar.com
+              </a>
+              <a href="tel:+8801700000000" className="text-sm text-base-content/70 hover:text-red-600 transition-colors w-fit">
+                +880 1700-000000
+              </a>
+              <span className="text-sm text-base-content/70 w-fit">
+                Dhaka, Bangladesh
+              </span>
             </nav>
           </div>
         </div>

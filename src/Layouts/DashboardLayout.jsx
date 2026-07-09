@@ -15,14 +15,14 @@ const userLinks = [
 ];
 const chefLinks = [
     { to: '/dashboardLayouts', label: 'Home', icon: FaHome, end: true },
-     { to: '/dashboardLayouts/myProfile', label: 'My Profile', icon: CgProfile },
+    { to: '/dashboardLayouts/myProfile', label: 'My Profile', icon: CgProfile },
     { to: '/dashboardLayouts/createMeal', label: 'Create Meal', icon: FaPlusCircle },
     { to: '/dashboardLayouts/myMeals', label: 'My Meal', icon: FaUtensils },
     { to: '/dashboardLayouts/orderRequest', label: 'Order Request', icon: MdPendingActions },
 ];
 const adminLinks = [
     { to: '/dashboardLayouts', label: 'Home', icon: FaHome, end: true },
-     { to: '/dashboardLayouts/myProfile', label: 'My Profile', icon: CgProfile },
+    { to: '/dashboardLayouts/myProfile', label: 'My Profile', icon: CgProfile },
     { to: '/dashboardLayouts/manageUsers', label: 'Manage Users', icon: FaUsersCog },
     { to: '/dashboardLayouts/manageRequest', label: 'Manage Request', icon: FaClipboardCheck },
     { to: '/dashboardLayouts/platformStatistics', label: 'Platform Statistics', icon: FaChartBar },
@@ -32,7 +32,7 @@ const DashboardLayout = () => {
     const location = useLocation();
     const { userRole } = useRole();
     const role = userRole.role;
-//Todo dynamic links;
+    //Todo dynamic links;
     const links =
         role === 'admin' ? adminLinks :
             role === 'chef' ? chefLinks :
@@ -49,7 +49,7 @@ const DashboardLayout = () => {
     return (
         <div className="drawer lg:drawer-open">
             <Helmet>
-                 <title>DashBoardLayout | LocalChefBazaar</title>
+                <title>DashBoardLayout | LocalChefBazaar</title>
             </Helmet>
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
@@ -106,7 +106,9 @@ const DashboardLayout = () => {
                     <Link to={'/'}>
                         <div className="flex items-center gap-2.5 px-4 h-16 border-b border-base-300 is-drawer-close:justify-center">
                             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center shrink-0 shadow-md shadow-red-500/30">
-                                <span className="text-white font-bold text-sm">🍽️</span>
+                                <span className="text-white font-bold text-sm tracking-tight select-none">
+                                    LCB
+                                </span>
                             </div>
                             <span className="font-bold text-base-content text-lg is-drawer-close:hidden">
                                 LocalChef<span className="text-red-500">Bazaar</span>
