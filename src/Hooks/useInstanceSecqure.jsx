@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import useAuth from './useAuth';
 const instanceSecqure = axios.create({
-    baseURL: "https://local-chef-bazaar-server-steel.vercel.app/",
+    baseURL: "http://localhost:3000/",
 })
 const useInstanceSecqure = () => {
     const { user,logOutUsers } = useAuth()
